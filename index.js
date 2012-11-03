@@ -104,7 +104,7 @@ function download(videoID){
 			alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
-				cordovaDownload("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"););
+				cordovaDownload("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"));
 			}else{
 				alert('Video Cannot Be Downloaded...');
 			}
