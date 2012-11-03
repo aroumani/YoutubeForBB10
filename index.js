@@ -50,49 +50,48 @@ function download(videoID){
 	
 	$.mobile.allowCrossDomainPages = true;
 	//queue converstion
-	try{
 		
-		$.ajax({
-		  aysnc:true,
-		  crossDomain: true,
-		  dataType: 'jsonp',
-		  url: 'http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID,
-		  error: function(xhr,status,err){
-			$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
-				console.log(info);
-				console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
-				if (info != null){
-					setTimeout(function(){
-						window.location="http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h;
-					},3000)
-				}else{
-					alert('Video Cannot Be Downloaded...');
-				}
+		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
+		//alert('test');
+		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
+			console.log(info.h);
+			console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
+			//alert(info.h);
+			if (info != null){
+				setTimeout(function(){
+					//alert('dl');
+					window.location="http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h;
+				},3000)
+			}else{
+				alert('Video Cannot Be Downloaded...');
+			}
 				
-			});
-		     
-		 },
-		  success: function(data) {
-		  }
 		});
-	}catch(ex){
-		alert(ex);
-	}
 	return true;
 }
 
 function checkForDownload(videoID, el){
-	$.ajax({
-	  aysnc:true,
-	  crossDomain: true,
-	  dataType: 'jsonp',
-	  url: 'http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID,
-	  error: function(xhr,status,err){
-		el.show();
-	 },
-	  success: function(data) {
-	  }
-	});
+
+	$.mobile.allowCrossDomainPages = true;
+	//queue converstion
+		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
+		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
+		//$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id=Ki86x1WKPmE', function() {
+		
+		
+			console.log(info);
+			//console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
+			if (info != null){
+				el.show();
+				info=null;
+			}else{
+				alert('Video Cannot Be Downloaded...');
+			}
+				
+		});
+	
+	return true;
+	
 }
 
 
