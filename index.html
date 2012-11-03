@@ -4,10 +4,12 @@
 	<title>My Page</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	<script type="text/javascript" src="phonegap.js"></script > 
 	<script type="text/javascript" src="cordova.js"></script > 
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.js"></script>
 	<script src="http://youtube.com/iframe_api"></script>
 	<script src="jqSearch.js"></script>
 	<script type="text/javascript">
@@ -26,28 +28,20 @@
 <div data-role="page" id="one">
 
 	<div data-role="header">
-	<a href="index.html" data-icon="delete">Home</a>
-	<h1>Edit Contact</h1>
-	<a href="#two" data-icon="check" data-theme="b">Options</a>
+	<h1>Youtube To MP3 Converter</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
 	
-		<a href="http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h=053aa184a12c9e7a280d38b182c6ffce">not balnk</a>
-		<a href="http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h=053aa184a12c9e7a280d38b182c6ffce" target="_blank">balnk</a>
-		<a href="http://www.example.org/" target="_blank">test2</a>
-		
-		<input type="search" name="search" id="searchField" value="" /><button onclick="search()">Search</button>
-		<br/>
-		<hr/>
-		<ul id="videoList" data-role="listview" data-split-icon="gear" data-split-theme="d">
+		<input type="search" name="search" data-theme="a" id="searchField" placeholder="Enter kewords here..." value="" />
+		<button onclick="search()">Search</button><br/>
+		<ul id="videoList" data-role="listview" data-split-icon="plus" data-split-theme="a">
 		</ul>
-		<hr/>
 	</div><!-- /content -->
 	
 	
 	<div data-role="footer"> 
-	<h4>Footer content</h4> 
+	<h4>Compuscope Consulting</h4> 
 </div> 
 
 </div><!-- /page -->
@@ -56,12 +50,11 @@
 <div data-role="page" id="two" data-theme="a">
 
 	<div data-role="header">
-	<a href="#one" data-icon="delete" data-direction="reverse" data-role="button" data-theme="b">Back to page "one"</a>
-	<h1>watch video</h1>
+	<a href="#one" data-icon="plus" data-direction="reverse" data-role="button" data-theme="a">Take Me Back</a>
 	</div><!-- /header -->
 
-	<div data-role="content" data-theme="a" style="height:80%">	
-		<center><iframe id="player" type="text/html" frameborder="0" style="align:center;height:100%"
+	<div data-role="content" data-theme="a" style="height:90%"><br/>	
+		<center><iframe id="player" type="text/html" frameborder="0"  style="margin-top:5px;height:90%;width:90%" height="100%" width="100%"
   src="http://www.youtube.com/embed/Llwd0vjAtzw?enablejsapi=1"
   frameborder="0"></iframe></center>
   
@@ -69,7 +62,7 @@
 	
 	
 	<div data-role="footer">
-		<h4>Page Footer</h4>
+		<h4>Watch Video</h4>
 	</div><!-- /footer -->
 </div><!-- /page two -->
 

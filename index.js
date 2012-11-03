@@ -22,7 +22,7 @@ function dirReady(entry) {
 }
 
 
-downloadFile = function(url, fname){
+downloadFile = function(atr, url, fname){
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
@@ -32,10 +32,30 @@ downloadFile = function(url, fname){
         url,
         filePath,
         function(entry) {
-            alert("download complete: " + entry.fullPath);
+		try{
+		$(this).simpledialog({
+		    'mode' : 'bool',
+		    'prompt' : 'Download is complete and has been saved to:<br/>'+entry.fullPath,
+		    'useModal': true,
+		    'buttons' : {
+		      'OK': {
+		      }
+		    }
+		  });
+		 }catch(ex){
+			alert('File Downloaded!');
+		 }
         },
         function(error) {
-            alert("download error" + error.source);
+		$(this).simpledialog({
+		    'mode' : 'bool',
+		    'prompt' : 'An error occurd while trying to download:<br/>'+fname,
+		    'useModal': true,
+		    'buttons' : {
+		      'OK': {
+		      }
+		    }
+		  });
         }
     );
 }
@@ -89,7 +109,7 @@ function loadVideo(videoID){
 	return true;
 }
 
-function download(videoID){
+function download(atr, videoID){
 
 
 	
@@ -100,11 +120,10 @@ function download(videoID){
 		//alert('test');
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
 			console.log(info.h);
-			console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
-			alert(info.h);
+			//alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
-				downloadFile("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"));
+				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"));
 			}else{
 				alert('Video Cannot Be Downloaded...');
 			}
@@ -153,18 +172,35 @@ function search(){
 				</a><a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
 			</li>*/	
 		console.log(video);
-		html += ('<li data-videoid="'+video.videoId+'" ><a href="#two" onclick="loadVideo(\''+video.videoId+'\');" ><img src="'+video.thumbs[3].url+'" /><h3>'+video.title+'</h3><p></p></a>'+
-			 '<a class="dlLink" href="#popup" data-role="button" data-rel="dialog" data-transition="pop">Download MP#</a></li>');
+		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a href="#two" onclick="loadVideo(\''+video.videoId+'\');" ><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p>A short description</p></a>'+
+			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a></li>');
 	}
 	$("#videoList").html(html);
-	$("#videoList").listview("refresh");
+	$("#videoList").listview("refresh"); 
 	
 	$("#videoList").find(".dlLink").hide('slow', function(){
 		checkForDownload($(this).parent("li").jqmData("videoid"), $(this));
 	});
 		
 	$("#videoList a.ui-li-link-alt").live("click", function(e){
-		download($(this).parent("li").jqmData("videoid"));
+		$(this).simpledialog({
+		    'mode' : 'bool',
+		    'prompt' : 'Are You Sure?',
+		    'useModal': true,
+		    'buttons' : {
+		      'OK': {
+			click: function () {
+				download($(this), $(this).parent("li").jqmData("videoid"));
+			}
+		      },
+		      'Cancel': {
+			click: function () {
+			},
+			icon: "delete",
+			theme: "c"
+		      }
+		    }
+		  });
 	});
 	});
 	
