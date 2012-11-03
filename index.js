@@ -3,7 +3,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     alert("device is ready");
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 5*1024*1024, gotFS, fail);
 }
 
 function fail() {
@@ -28,8 +28,9 @@ function dirReady(entry) {
 downloadFile = function(url){
     var fileTransfer = new FileTransfer();
 
-    var filePath = window.appRootDir.fullPath + "/song.mp3s";
+    var filePath = window.appRootDir.fullPath + "/song.mp3";
 
+    alert('try:'+ filePath);
     fileTransfer.download(
         url,
         filePath,
