@@ -1,3 +1,48 @@
+window.appRootDirName = "download_mp";
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+    alert("device is ready");
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+}
+
+function fail() {
+    console.log("failed to get filesystem");
+}
+
+function gotFS(fileSystem) {
+    alert("filesystem got");
+    window.fileSystem = fileSystem;
+    fileSystem.root.getDirectory(window.appRootDirName, {
+        create : true,
+        exclusive : false
+    }, dirReady, fail);
+}
+
+function dirReady(entry) {
+    window.appRootDir = entry;
+    alert("application dir is ready");
+}
+
+
+downloadFile = function(url){
+    var fileTransfer = new FileTransfer();
+
+    var filePath = window.appRootDir.fullPath + "/song.mp3s";
+
+    fileTransfer.download(
+        url,
+        filePath,
+        function(entry) {
+            alert("download complete: " + entry.fullPath);
+        },
+        function(error) {
+            alert("download error" + error.source);
+        }
+    );
+}
+
+
 $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
     $.mobile.allowCrossDomainPages = true;
@@ -5,6 +50,8 @@ $( document ).bind( "mobileinit", function() {
     
     
 });
+
+
 var info=null;
 var player=null;
 function pageLoad(){
@@ -44,6 +91,12 @@ function loadVideo(videoID){
 	return true;
 }
 
+function cordovaDownload(serverURL){
+	alert(serverURL);
+    downloadFile(serverURL);
+    alert('dl2');
+
+}
 function download(videoID){
 
 
@@ -58,7 +111,9 @@ function download(videoID){
 			console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
 			alert(info.h);
 			if (info != null){
-				window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
+				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
+				
+				cordovaDownload("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 			}else{
 				alert('Video Cannot Be Downloaded...');
 			}
