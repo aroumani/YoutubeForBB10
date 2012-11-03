@@ -28,6 +28,8 @@
 
 	<gap:splash src="splash.jpg" />
 	
+	<access origin="*" />
+	
 	<preference name="disable-cursor" value="true" />
 	
 	<preference name="fullscreen" value="true" />
