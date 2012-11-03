@@ -28,7 +28,14 @@
 <div data-role="page" id="one">
 
 	<div data-role="header">
-	<h1>Youtube To MP3 Converter</h1>
+		<h1>Search</h1>
+		<a href="index.html" data-icon="gear" class="ui-btn-right">Options</a>
+		<div data-role="navbar">
+			<ul>
+				<li><a class="ui-btn-active" href="#">Search</a></li>
+				<li><a href="#two">My Music</a></li>
+			</ul>
+		</div><!-- /navbar -->
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -36,6 +43,7 @@
 		<input type="search" name="search" data-theme="a" id="searchField" placeholder="Enter kewords here..." value="" />
 		<button onclick="search()">Search</button><br/>
 		<ul id="videoList" data-role="listview" data-split-icon="plus" data-split-theme="a">
+			
 		</ul>
 	</div><!-- /content -->
 	
@@ -65,24 +73,6 @@
 		<h4>Watch Video</h4>
 	</div><!-- /footer -->
 </div><!-- /page two -->
-
-<!-- Start of third page: #popup -->
-<div data-role="page" id="popup">
-
-	<div data-role="header" data-theme="e">
-		<h1>Dialog</h1>
-	</div><!-- /header -->
-
-	<div data-role="content" data-theme="d">	
-		<h2>Warning: Download Starting...</h2>
-		<p>I understand that I wont use this service to violate any copyright laws. Your download is progressing, and should be complete within 5 mins depending on your network coverage.</p>		
-		<p><a href="#one" data-rel="back" data-role="button" data-inline="true" data-icon="back">Back to page "one"</a></p>	
-	</div><!-- /content -->
-	
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
-</div><!-- /page popup -->
 
 </body>
 </html>
