@@ -32,19 +32,7 @@ downloadFile = function(atr, url, fname){
         url,
         filePath,
         function(entry) {
-		try{
-		$(this).simpledialog({
-		    'mode' : 'bool',
-		    'prompt' : 'Download is complete and has been saved to:<br/>'+entry.fullPath,
-		    'useModal': true,
-		    'buttons' : {
-		      'OK': {
-		      }
-		    }
-		  });
-		 }catch(ex){
-			alert('File Downloaded!');
-		 }
+		alert(entry.fullPath);
         },
         function(error) {
 		$(this).simpledialog({
