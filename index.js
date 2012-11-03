@@ -2,8 +2,7 @@ window.appRootDirName = "download_mp";
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    alert("device is ready");
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 5*1024*1024, gotFS, fail);
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
 
 function fail() {
@@ -11,7 +10,6 @@ function fail() {
 }
 
 function gotFS(fileSystem) {
-    alert("filesystem got");
     window.fileSystem = fileSystem;
     fileSystem.root.getDirectory(window.appRootDirName, {
         create : true,
@@ -21,16 +19,15 @@ function gotFS(fileSystem) {
 
 function dirReady(entry) {
     window.appRootDir = entry;
-    alert("application dir is ready");
 }
 
 
-downloadFile = function(url){
+downloadFile = function(url, fname){
     var fileTransfer = new FileTransfer();
 
-    var filePath = window.appRootDir.fullPath + "/song.mp3";
+    var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
 
-    alert('try:'+ filePath);
+    //alert('try:'+ filePath); 
     fileTransfer.download(
         url,
         filePath,
@@ -92,12 +89,6 @@ function loadVideo(videoID){
 	return true;
 }
 
-function cordovaDownload(serverURL){
-	alert(serverURL);
-    downloadFile(serverURL);
-    alert('dl2');
-
-}
 function download(videoID){
 
 
@@ -113,8 +104,7 @@ function download(videoID){
 			alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
-				
-				cordovaDownload("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
+				cordovaDownload("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"););
 			}else{
 				alert('Video Cannot Be Downloaded...');
 			}
