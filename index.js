@@ -1,6 +1,6 @@
 window.appRootDirName = "download_mp";
 document.addEventListener("deviceready", onDeviceReady, false);
-
+var lock=false;
 function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
@@ -123,7 +123,7 @@ function download(atr, videoID){
 			//alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
-				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/ /g,"_"));
+				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/[^a-z0-9]/gi, '_').toLowerCase());
 			}else{
 				alert('Video Cannot Be Downloaded...');
 			}
@@ -172,8 +172,9 @@ function search(){
 				</a><a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
 			</li>*/	
 		console.log(video);
-		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a href="#two" onclick="loadVideo(\''+video.videoId+'\');" ><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p>A short description</p></a>'+
-			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a></li>');
+		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a href="#two" onclick="loadVideo(\''+video.videoId+'\');" ><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
+			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
+			 '<a href="lists-split-purchase.html" data-rel="dialog" data-transition="slideup">Purchase album</a></li>');
 	}
 	$("#videoList").html(html);
 	$("#videoList").listview("refresh"); 
@@ -183,6 +184,11 @@ function search(){
 	});
 		
 	$("#videoList a.ui-li-link-alt").live("click", function(e){
+		if (lock){return;}
+		else{
+			lock=true;
+			var t=setTimeout(function(){lock=false;},1000)
+		}
 		$(this).simpledialog({
 		    'mode' : 'bool',
 		    'prompt' : 'Are You Sure?',
