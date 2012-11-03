@@ -2,7 +2,7 @@
 <widget xmlns		= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		= "com.cc.youtube"
-	version   = "1.0.0">
+	version   = "1.0.1">
 
 	<name>YoutubeForBB10</name>
 
@@ -34,7 +34,7 @@
 	
 	<preference name="orientation" value="portrait" />
 	
-	<access origin="*" />
+	<!--<access origin="*" />-->
 	
 	<feature name="http://api.phonegap.com/1.0/battery"/>
 	<feature name="http://api.phonegap.com/1.0/camera"/>
