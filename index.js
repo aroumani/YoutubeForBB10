@@ -74,6 +74,7 @@ var info=null;
 var player=null;
 function pageLoad(){
       
+	
 	player = new YT.Player('player', {
 	});
 	
@@ -88,6 +89,8 @@ function pageLoad(){
          }); 
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
+	
+	alert('hello!');
 }
 
 function loadVideo(videoID){
@@ -174,7 +177,7 @@ function search(){
 		console.log(video);
 		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a href="#two" onclick="loadVideo(\''+video.videoId+'\');" ><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
 			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
-			 '<a href="lists-split-purchase.html" data-rel="dialog" data-transition="slideup">Purchase album</a></li>');
+			 '</li>');
 	}
 	$("#videoList").html(html);
 	$("#videoList").listview("refresh"); 
