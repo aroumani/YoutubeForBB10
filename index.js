@@ -56,7 +56,7 @@ function download(videoID){
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
 			console.log(info.h);
 			console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
-			//alert(info.h);
+			alert(info.h);
 			if (info != null){
 				window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 			}else{
