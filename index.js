@@ -78,7 +78,6 @@ function pageLoad(){
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
 	
-	alert('hello!');
 }
 
 function loadVideo(videoID){
@@ -145,6 +144,64 @@ function checkForDownload(videoID, el){
 	
 	return true;
 	
+}
+
+// Audio player
+var my_media = null;
+var mediaTimer = null;
+	
+function playAudio(src) {
+            // Create Media object from src
+            my_media = new Media(src, onSuccess, onError);
+
+            // Play audio
+            my_media.play();
+
+            // Update my_media position every second
+            if (mediaTimer == null) {
+                mediaTimer = setInterval(function() {
+                    // get my_media position
+                    my_media.getCurrentPosition(
+                        // success callback
+                        function(position) {
+                            if (position > -1) {
+                                setAudioPosition((position) + " sec");
+                            }
+                        },
+                        // error callback
+                        function(e) {
+                            console.log("Error getting pos=" + e);
+                            setAudioPosition("Error: " + e);
+                        }
+                    );
+                }, 1000);
+            }
+}
+
+
+function refresh(){
+
+	function dirsRead(entries) {
+	    var i;
+	    for (i=0; i<entries.length; i++) {
+		console.log(entries[i].name);
+		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
+				'</li>');
+	    }
+	}
+	
+	function fail(error) {
+		alert("Failed to list directory contents: " + error.code);
+	}
+	
+	// Get a directory reader
+	var directoryReader = new DirectoryEntry(window.appRootDir.fullPath).createReader();
+
+	// Get a list of all the entries in the directory
+	directoryReader.readEntries(dirsRead,fail);
+	
+	$("#musicList").html(html);
+	$("#musicList").listview("refresh"); 
 }
 
 

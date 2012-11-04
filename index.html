@@ -25,7 +25,8 @@
 </head> 
 <body onload="pageLoad();"> 
 
-<div data-role="page" id="one">
+
+<div data-role="page" id="search">
 
 	<div data-role="header">
 		<h1>Search</h1>
@@ -33,7 +34,7 @@
 		<div data-role="navbar">
 			<ul>
 				<li><a class="ui-btn-active" href="#">Search</a></li>
-				<li><a href="#two">My Music</a></li>
+				<li><a href="#music">My Music</a></li>
 			</ul>
 		</div><!-- /navbar -->
 	</div><!-- /header -->
@@ -50,9 +51,37 @@
 	
 	<div data-role="footer"> 
 	<h4>Compuscope Consulting</h4> 
-</div> 
+	</div> 
 
 </div><!-- /page -->
+
+<div data-role="page" id="music">
+
+	<div data-role="header">
+		<h1>My Music</h1>
+		<a href="index.html" data-icon="gear" class="ui-btn-right">Options</a>
+		<div data-role="navbar">
+			<ul>
+				<li><a href="#search">Search</a></li>
+				<li><a class="ui-btn-active" href="#">My Music</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div><!-- /header -->
+
+	<div data-role="content">
+	
+		<button onclick="refresh()">Refresh</button><br/>
+		<ul id="musicList" data-role="listview" data-split-icon="search" data-split-theme="a">
+			
+		</ul>
+	</div><!-- /content -->
+	
+	
+	<div data-role="footer"> 
+	<h4>Compuscope Consulting</h4> 
+	</div> 
+
+</div>
 
 <!-- Start of second page: #two -->
 <div data-role="page" id="two" data-theme="a">
