@@ -184,11 +184,15 @@ function refresh(){
 	function dirsRead(entries) {
 		
 	    var i;
+	    alert(entries.length);
 	    for (i=0; i<entries.length; i++) {
+		alert(i);
+		alert(entries[i);
 		alert(entries[i].fullPath);
 		alert(entries[i].name);
 		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
+		alert('done'+i);
 	    }
 	    
 	    $("#musicList").html(html);
