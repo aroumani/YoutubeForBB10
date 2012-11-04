@@ -22,6 +22,12 @@
 	});
 	</script>
 	<script src="index.js"></script>
+	<style>
+		body {
+			font: 100%/1.4 Calibri,Verdana, Arial, Helvetica, sans-serif;
+		}
+	</style>
+	
 </head> 
 <body onload="pageLoad();"> 
 
@@ -29,14 +35,9 @@
 <div data-role="page" id="search">
 
 	<div data-role="header">
+		<a href="#music" data-icon="grid" data-theme="e" class="ui-btn-left">My Downloads</a>
 		<h1>Search</h1>
-		<a href="index.html" data-icon="gear" class="ui-btn-right">Options</a>
-		<div data-role="navbar">
-			<ul>
-				<li><a class="ui-btn-active" href="#">Search</a></li>
-				<li><a href="#music">My Music</a></li>
-			</ul>
-		</div><!-- /navbar -->
+		<a href="#about" data-icon="gear" data-theme="b" class="ui-btn-right">Options</a>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -58,18 +59,13 @@
 <div data-role="page" id="music">
 
 	<div data-role="header">
-		<h1>My Music</h1>
-		<a href="index.html" data-icon="gear" class="ui-btn-right">Options</a>
-		<div data-role="navbar">
-			<ul>
-				<li><a href="#search">Search</a></li>
-				<li><a class="ui-btn-active" href="#">My Music</a></li>
-			</ul>
-		</div><!-- /navbar -->
+		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-right">Search</a>
+		<h1>Downloads</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
-	
+		<p>All the content you have downloaded will be below.</p>
+		<p>Files saved to: <span id="fileLoc"></span></p>
 		<button onclick="refresh()">Refresh</button><br/>
 		<ul id="musicList" data-role="listview" data-split-icon="search" data-split-theme="a">
 			
@@ -80,28 +76,30 @@
 	<div data-role="footer"> 
 	<h4>Compuscope Consulting</h4> 
 	</div> 
-
 </div>
 
-<!-- Start of second page: #two -->
-<div data-role="page" id="two" data-theme="a">
+<div data-role="page" id="about">
 
 	<div data-role="header">
-	<a href="#one" data-icon="plus" data-direction="reverse" data-role="button" data-theme="a">Take Me Back</a>
+		<h1>About</h1>
+		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-left">Search</a>
 	</div><!-- /header -->
 
-	<div data-role="content" data-theme="a" style="height:90%"><br/>	
-		<!--<center><iframe id="player" type="text/html" frameborder="0"  style="margin-top:5px;height:90%;width:90%" height="100%" width="100%"
-  src="http://www.youtube.com/embed/Llwd0vjAtzw?enablejsapi=1"
-  frameborder="0"></iframe></center>-->
-  
+	<div data-role="content">
+		<p>We hope you are enjoying this Application.</p>
+		<p>Ensure that you are not violating any copyright acts by re-distributing material</p>
+		<p>This application makes no garentees that videos will be able to be converted, as changes can occur with APIs that we are using at any time</p>
+		<p>We will do our best to provide an updated version at the earliest possible time in this event.</p>
+		<a href="mailto:support@workplaymobile.com" style="background-color:white;color:darkred;font: 100%/1.4 Calibri,Verdana, Arial, Helvetica, sans-serif;font-size:18px;height:50%;width:70%">Click Here To Report A Problem</a><br/><br/>
+		<img src="ccLogoSmall.png"/>
 	</div><!-- /content -->
 	
 	
-	<div data-role="footer">
-		<h4>Watch Video</h4>
-	</div><!-- /footer -->
-</div><!-- /page two -->
+	<div data-role="footer"> 
+	<h4>Compuscope Consulting</h4> 
+	</div> 
+</div>
+
 
 </body>
 </html>
