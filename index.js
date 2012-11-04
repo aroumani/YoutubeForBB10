@@ -182,13 +182,10 @@ function playAudio(src) {
 function refresh(){
 
 	function dirsRead(entries) {
-		alert('made it!');
 		
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		alert(entries[i].name);
-		console.log(entries[i].name);
-		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
@@ -201,7 +198,6 @@ function refresh(){
 	}
 	
 	// Get a directory reader
-	alert(window.appRootDir);
 	var directoryReader = window.appRootDir.createReader();
 
 	// Get a list of all the entries in the directory
