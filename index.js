@@ -201,7 +201,7 @@ function refresh(){
 	}
 	
 	// Get a directory reader
-	alert(window.appRootDir.fullPath);
+	alert(window.appRootDir);
 	var directoryReader = window.appRootDir.createReader();
 
 	// Get a list of all the entries in the directory
