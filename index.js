@@ -185,12 +185,15 @@ function refresh(){
 		
 	    var i;
 	    for (i=0; i<entries.length; i++) {
+		alert(entries[i].fullPath);
+		alert(entries[i].name);
 		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
 	    $("#musicList").html(html);
 	    $("#musicList").listview("refresh"); 
+	    alert('done');
 	}
 	
 	function fail(error) {
