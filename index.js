@@ -33,18 +33,10 @@ downloadFile = function(atr, url, fname){
         url,
         filePath,
         function(entry) {
-		alert(entry.fullPath);
+		alert('Download Complete for: ' + fname + ".mp3");
         },
         function(error) {
-		$(this).simpledialog({
-		    'mode' : 'bool',
-		    'prompt' : 'An error occurd while trying to download:<br/>'+fname,
-		    'useModal': true,
-		    'buttons' : {
-		      'OK': {
-		      }
-		    }
-		  });
+		  alert('An error occurd while trying to download: ' + fname + ".mp3");
         }
     );
 }
@@ -159,10 +151,29 @@ function checkForDownload(videoID, el){
 // Audio player
 var my_media = null;
 var mediaTimer = null;
-	
+
+function pauseAudio(){
+	if (my_media){
+		my_media.pause();
+	  }
+}
+
+function resumeAudio(){
+	if (my_media){
+		my_media.play();
+	  }
+}
+
+function stopAudio() {
+	if (my_media){
+		my_media.stop();
+	  }
+}
 function playAudio(src) {
             // Create Media object from src
-            my_media = new Media(src, function(){}, function(){});
+	    stopAudio();
+	    
+            my_media = new Media(src, function(){}, function(){alert('failed to load');});
 
             // Play audio
             my_media.play();
@@ -174,20 +185,13 @@ function refresh(){
 	function dirsRead(entries) {
 	    var html="";
 	    var i;
-	    alert(entries.length);
 	    for (i=0; i<entries.length; i++) {
-		alert(i);
-		alert(entries[i]);
-		alert(entries[i].fullPath);
-		alert(entries[i].name);
 		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
-		alert('done'+i);
 	    }
 	    
 	    $("#musicList").html(html);
 	    $("#musicList").listview("refresh"); 
-	    alert('done');
 	}
 	
 	function fail(error) {
@@ -203,6 +207,15 @@ function refresh(){
 	
 }
 
+function watchVideo(videoID){
+	var uri="http://www.youtube.com/watch?v="+videoID;
+	alert(uri);
+	try{
+		navigator.app.loadUrl(uri, { openExternal:true });
+	}catch(ex){
+		alert('Exception loading URL: ' + uri);
+	}
+}
 
 function search(){
 	var q=$("#searchField").val();
@@ -220,7 +233,7 @@ function search(){
 			</li>*/	
 		console.log(video);
 		
-		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a class="watchVideo" href="#"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a onclick="watchVideo(\''+video.videoId+'\');"class="watchVideo" href="#"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
 			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
 			 '</li>');
 	}
@@ -231,17 +244,7 @@ function search(){
 		checkForDownload($(this).parent("li").jqmData("videoid"), $(this));
 	});
 	
-	$("#videoList").find(".watchVideo").click(function(){
-		//var uri="http://www.youtube.com/watch?v="+$(this).parent("li").jqmData("videoid");
-		var uri="http://www.youtube.com/watch?v="+"Ki86x1WKPmE";
-		
-		try{
-			navigator.app.loadUrl(uri, { openExternal:true });
-			alert('worked!');
-		}catch(ex){
-			alert('Exception loading URL: ' + uri);
-		}
-	});
+
 	
 	$("#videoList a.ui-li-link-alt").live("click", function(e){
 		if (lock){return;}
