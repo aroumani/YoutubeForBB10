@@ -136,7 +136,7 @@ function checkForDownload(videoID, el){
 
 	$.mobile.allowCrossDomainPages = true;
 	//queue converstion
-		//$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
+		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
 		//$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id=Ki86x1WKPmE', function() {
 		
@@ -162,7 +162,7 @@ var mediaTimer = null;
 	
 function playAudio(src) {
             // Create Media object from src
-            my_media = new Media(src, onSuccess, onError);
+            my_media = new Media(src, function(){}, function(){});
 
             // Play audio
             my_media.play();
@@ -172,7 +172,7 @@ function playAudio(src) {
 function refresh(){
 
 	function dirsRead(entries) {
-		
+	    var html="";
 	    var i;
 	    alert(entries.length);
 	    for (i=0; i<entries.length; i++) {
@@ -180,7 +180,7 @@ function refresh(){
 		alert(entries[i]);
 		alert(entries[i].fullPath);
 		alert(entries[i].name);
-		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#two" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 		alert('done'+i);
 	    }
@@ -220,7 +220,7 @@ function search(){
 			</li>*/	
 		console.log(video);
 		
-		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a target="_blank" href="http://www.youtube.com//watch?v='+video.videoId+'"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a class="watchVideo" href="#"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
 			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
 			 '</li>');
 	}
@@ -230,12 +230,24 @@ function search(){
 	$("#videoList").find(".dlLink").hide('slow', function(){
 		checkForDownload($(this).parent("li").jqmData("videoid"), $(this));
 	});
+	
+	$("#videoList").find(".watchVideo").click(function(){
+		//var uri="http://www.youtube.com/watch?v="+$(this).parent("li").jqmData("videoid");
+		var uri="http://www.youtube.com/watch?v="+"Ki86x1WKPmE";
 		
+		try{
+			navigator.app.loadUrl(uri, { openExternal:true });
+			alert('worked!');
+		}catch(ex){
+			alert('Exception loading URL: ' + uri);
+		}
+	});
+	
 	$("#videoList a.ui-li-link-alt").live("click", function(e){
 		if (lock){return;}
 		else{
 			lock=true;
-			var t=setTimeout(function(){lock=false;},1000)
+			var t=setTimeout(function(){lock=false;},1000);
 		}
 		$(this).simpledialog({
 		    'mode' : 'bool',
