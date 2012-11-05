@@ -19,7 +19,7 @@ function gotFS(fileSystem) {
 
 function dirReady(entry) {
     window.appRootDir = entry;
-    $("#fileLoc").html(entry.fullPath);
+    //$("#fileLoc").html(entry.fullPath);
 }
 
 
