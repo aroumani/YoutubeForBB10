@@ -117,7 +117,7 @@ function download(atr, videoID){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/[^a-z0-9]/gi, '_').toLowerCase());
 			}else{
-				alert('Video Cannot Be Downloaded...');
+				//alert('Video Cannot Be Downloaded...');
 			}
 				
 		});

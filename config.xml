@@ -2,12 +2,12 @@
 <widget xmlns		= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		= "com.cc.youtube"
-	version   = "1.0.2">
+	version   = "1.0.3">
 
-	<name>YoutubeForBB10</name>
+	<name>uTube Leecher</name>
 
 	<description>
-		My amazing youtube viewer
+		My amazing uTube viewer
 	</description>
 
 	<author href="http://workplaymobile.com"
