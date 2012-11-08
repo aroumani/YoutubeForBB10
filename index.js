@@ -46,6 +46,7 @@ $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
+	$.mobile.buttonMarkup.hoverDelay=0;
     
     
 });
@@ -139,7 +140,7 @@ function checkForDownload(videoID, el){
 				el.show();
 				info=null;
 			}else{
-				alert('Video Cannot Be Downloaded...');
+				//alert('Video Cannot Be Downloaded...');
 			}
 				
 		});
@@ -149,36 +150,126 @@ function checkForDownload(videoID, el){
 }
 
 // Audio player
+var mediaPlaying=false;
 var my_media = null;
 var mediaTimer = null;
+var cur_song=0;
 
 function pauseAudio(){
 	if (my_media){
 		my_media.pause();
+		mediaPlaying=false;
 	  }
 }
 
 function resumeAudio(){
 	if (my_media){
+		mediaPlaying=true;
 		my_media.play();
 	  }
 }
 
-function stopAudio() {
+function nextSong(){
+	stopAudio();
+	cur_song++;
+	getSong(cur_song, function(json){
+		playAudio(json.path, json.title, cur_song);
+	});
+}
+
+function stopAudio(){
 	if (my_media){
+		mediaPlaying=false;
 		my_media.stop();
 	  }
 }
-function playAudio(src) {
-            // Create Media object from src
+
+function playPauseAudio() {
+	if (my_media){
+		if(mediaPlaying){
+			stopAudio();
+		}else{
+			resumeAudio();
+		}
+	  }
+}
+function playAudio(src, name, num) {
+
+		$("#songName").html(name);
+		
+		cur_song=i;
+           // Create Media object from src
 	    stopAudio();
 	    
-            my_media = new Media(src, function(){}, function(){alert('failed to load');});
+		my_media = new Media(src, function(){}, function(){}, function status(constant){
+			if (constant==Media.MEDIA_STOPPED){
+				alert('stoped');
+			}
+		});
 
-            // Play audio
-            my_media.play();
+		// Update media position every second
+		var mediaTimer = setInterval(function() {
+			// get media position
+			my_media.getCurrentPosition(
+				// success callback
+				function(position) {
+					if (position > -1) {
+						console.log((position) + " sec");
+						$('#songSlider').val(""+(position/my_media.getDuration() * 100));
+						$('#songSlider').slider('refresh');
+					}
+				},
+				// error callback
+				function(e) {
+					console.log("Error getting pos=" + e);
+				}
+			);
+		}, 1000);
+	
+		// Play audio
+		resumeAudio();
 }
 
+function getNumSongs(callback){
+	function dirsRead(entries) {
+		callback(entries.length);
+	}
+	
+	function fail(error) {
+		alert("Failed to list directory contents: " + error.code);
+		callback(null);
+	}
+	
+	// Get a directory reader
+	var directoryReader = window.appRootDir.createReader();
+
+	// Get a list of all the entries in the directory
+	directoryReader.readEntries(dirsRead,fail);
+}
+
+function getSong(num, callback){
+	function dirsRead(entries) {
+	    var i;
+	    for (i=0; i<entries.length; i++) {
+			if (i==num){
+				callback("{'path':'"+entries[i].fullPath  +"', 'title':'"+entries[i].name+"'}");
+				return;
+			}
+	    }
+		callback(null);
+	}
+	
+	function fail(error) {
+		alert("Failed to list directory contents: " + error.code);
+		callback(null);
+	}
+	
+	// Get a directory reader
+	var directoryReader = window.appRootDir.createReader();
+
+	// Get a list of all the entries in the directory
+	directoryReader.readEntries(dirsRead,fail);
+}
 
 function refresh(){
 
@@ -186,7 +277,7 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
