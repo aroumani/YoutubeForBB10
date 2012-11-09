@@ -162,7 +162,6 @@ function nextSong(forward){
 		if (path){
 			playAudio(path, name, cur_song);
 		}else{
-			alert('end of list reach..');
 			if (forward){
 				cur_song=-1;
 			}else{
@@ -193,20 +192,14 @@ function playPauseAudio() {
 }
 function playAudio(src, name, num) {
 
-		alert('play!');
-		alert(src);
-		alert(name);
-		alert(num);
 		$("#songName").html(name);
 		
 		cur_song=num;
-		alert('stopping..');
            // Create Media object from src
 	    stopAudio();
 	    
 		my_media = new Media(src, function(){}, function(){}, function status(constant){
 			if (constant==Media.MEDIA_STOPPED){
-				alert('stoped');
 				if (mediaPlaying){
 					nextSong(true);
 				}
@@ -257,13 +250,11 @@ function getSong(num, callback){
 	    var i;
 	    for (i=0; i<entries.length; i++) {
 			if (i==num){
-				alert('found song: '+ i);
 				callback(entries[i].fullPath, entries[i].name);
 				return;
 			}
 	    }
 		
-		alert('no song found...');
 		callback(null);
 		return;
 	}
@@ -309,7 +300,6 @@ function refresh(){
 
 function watchVideo(videoID){
 	var uri="http://www.youtube.com/watch?v="+videoID;
-	alert(uri);
 	try{
 		navigator.app.loadUrl(uri, { openExternal:true });
 	}catch(ex){
