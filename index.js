@@ -160,6 +160,7 @@ function nextSong(forward){
 	alert('getting song: '+ cur_song);
 	getSong(cur_song, function(json){
 		alert('fond a song!');
+		alert(json);
 		if (json){
 			json = $.parseJSON(json);
 			alert('json recieved: '+ json);
