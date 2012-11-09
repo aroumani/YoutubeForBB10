@@ -50,7 +50,7 @@
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
-
+		
 <div data-role="page" id="nowPlaying">
 
 	<div data-role="header">
@@ -68,28 +68,31 @@
 	
 		<center>
 		
+		<h2><span id="songName">No Song Selected</span></h2>
+		
 		<div data-role="controlgroup" data-type="horizontal" >
-			<a href="#" data-icon="search" data-role="button">Previous</a>
-			<a href="#playPauseAudio" onclick="playPauseAudio()" data-role="button">Play</a>
-			<a href="#nextSong" data-role="button">Next</a>
+			<a href="#" data-iconpos="top" data-icon="back" data-role="button">Last</a>
+			<a href="#playPauseAudio" data-iconpos="top" data-icon="arrow-r" onclick="playPauseAudio()" data-role="button">Play</a>
+			<a href="#nextSong" data-iconpos="top" data-icon="forward" data-role="button">Next</a>
 		</div>
 		
-		 <h2><span id="songName">No Song Selected.</span></h2>
 		<div data-role="fieldcontain">
-			<input type="range" name="slider-3" disabled="true" id="songSlider" value="25" min="0" max="100" data-theme="a" data-track-theme="b" />
+			<input type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
 		</div>
 		
 		
 		
 		<div data-role="controlgroup" data-type="horizontal" >
-			<input type="radio" name="radio-choice-b" id="radio-choice-c" value="on" checked="checked" />
+			<input type="radio" name="radio-choice-b" id="radio-choice-c" value="on"/>
 			<label for="radio-choice-c">Shuffle On</label>
-			<input type="radio" name="radio-choice-b" id="radio-choice-d" value="off" />
+			<input type="radio" name="radio-choice-b" id="radio-choice-d" value="off" checked="checked" />
 			<label for="radio-choice-d">Shuffle Off</label>
-			
-			<input  type="radio" name="radio-choice-e" id="radio-choice-f" value="on" checked="checked" />
-			<label style="margin-left:10px;" for="radio-choice-f">Repeat On</label>
-			<input type="radio" name="radio-choice-e" id="radio-choice-g" value="off" />
+		</div>
+		
+		<div data-role="controlgroup" data-type="horizontal" >
+			<input  type="radio" name="radio-choice-e" id="radio-choice-f" value="on" />
+			<label for="radio-choice-f">Repeat On</label>
+			<input type="radio" name="radio-choice-e" id="radio-choice-g" value="off" checked="checked"  />
 			<label for="radio-choice-g">Repeat Off</label>
 		</div>
 		
@@ -118,7 +121,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<button onclick="refresh()">Refresh</button><br/>
+		<button onclick="refresh()">Refresh</button><br/><br/>
 		<ul id="musicList" data-role="listview" data-split-icon="search" data-split-theme="a">
 			
 		</ul>

@@ -47,6 +47,11 @@ $( document ).bind( "mobileinit", function() {
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
 	$.mobile.buttonMarkup.hoverDelay=0;
+	
+	$.mobile.loader.prototype.options.text = "loading";
+  $.mobile.loader.prototype.options.textVisible = false;
+  $.mobile.loader.prototype.options.theme = "a";
+  $.mobile.loader.prototype.options.html = "";
     
     
 });
@@ -283,7 +288,7 @@ function refresh(){
 	    var i;
 	    for (i=0; i<entries.length; i++) {
 		alert("playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');");
-		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
