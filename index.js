@@ -157,14 +157,10 @@ function nextSong(forward){
 		cur_song--;
 	}
 	
-	alert('getting song: '+ cur_song);
-	getSong(cur_song, function(json){
-		alert('fond a song!');
-		alert(json);
-		if (json){
-			json = JSON.parse(json);
-			alert(json);
-			playAudio(json.path, json.title, cur_song);
+
+	getSong(cur_song, function(path, name){
+		if (path){
+			playAudio(path, name, cur_song);
 		}else{
 			alert('end of list reach..');
 			if (forward){
@@ -262,7 +258,7 @@ function getSong(num, callback){
 	    for (i=0; i<entries.length; i++) {
 			if (i==num){
 				alert('found song: '+ i);
-				callback("{'path':'"+entries[i].fullPath  +"', 'title':'"+entries[i].name+"'}");
+				callback(entries[i].fullPath, entries[i].name);
 				return;
 			}
 	    }
