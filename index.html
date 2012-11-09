@@ -3,14 +3,18 @@
 <head> 
 	<title>My App</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-	<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
-	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" type="text/css" href="jquery.mobile.simpledialog.min.css" />
+	<link rel="stylesheet" type="text/css" href="jquery.mobile.toast.css" />
+	<script src="jquery-1.8.2.min.js"></script>
+	<script src="jquery.mobile-1.2.0.min.js"></script>
 	<script type="text/javascript" src="phonegap.js"></script > 
 	<script type="text/javascript" src="cordova.js"></script > 
-	<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.js"></script>
-	<script src="http://youtube.com/iframe_api"></script>
+	<script type="text/javascript" src="jquery.mobile.simpledialog.min.js"></script>
+	
+	<script src="jquery.mobile.toast.js"></script>
+	
+	
 	<script src="jqSearch.js"></script>
 	<script type="text/javascript">
 	jQTubeUtil.init({
@@ -39,7 +43,7 @@
 		<a href="#about" data-icon="gear" data-theme="b" class="ui-btn-right">About</a>
 	</div><!-- /header -->
 	<div data-role="content">
-	
+		<div id="dl_toast" data-role="toast">Download Started...</div>
 		<input type="search" name="search" data-theme="a" id="searchField" placeholder="Enter kewords here..." value="" />
 		<button onclick="search()">Search</button><br/>
 		<ul id="videoList" data-role="listview" data-split-icon="plus" data-split-theme="a">
@@ -50,7 +54,7 @@
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
-		
+
 <div data-role="page" id="nowPlaying">
 
 	<div data-role="header">
@@ -67,12 +71,10 @@
 	<div data-role="content">
 	
 		<center>
-		
-		<h2><span id="songName">No Song Selected</span></h2>
-		
+		<p><span id="songName">No Song Selected.</span></p>
 		<div data-role="controlgroup" data-type="horizontal" >
 			<a href="#" data-iconpos="top" data-icon="back" data-role="button">Last</a>
-			<a href="#playPauseAudio" data-iconpos="top" data-icon="arrow-r" onclick="playPauseAudio()" data-role="button">Play</a>
+			<a href="#playPauseAudio" data-iconpos="top" id="playPauseButtonID" data-icon="arrow-r" onclick="playPauseAudio()" data-role="button">Play</a>
 			<a href="#nextSong" data-iconpos="top" data-icon="forward" data-role="button">Next</a>
 		</div>
 		
