@@ -162,8 +162,8 @@ function nextSong(forward){
 		alert('fond a song!');
 		alert(json);
 		if (json){
-			json = $.parseJSON(json);
-			alert('json recieved: '+ json);
+			json = JSON.parse(json);
+			alert(json);
 			playAudio(json.path, json.title, cur_song);
 		}else{
 			alert('end of list reach..');
