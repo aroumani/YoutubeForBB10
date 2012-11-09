@@ -195,9 +195,14 @@ function playPauseAudio() {
 }
 function playAudio(src, name, num) {
 
+		alert('play!');
+		alert(src);
+		alert(name);
+		alert(num);
 		$("#songName").html(name);
 		
-		cur_song=i;
+		cur_song=num;
+		alert('stopping..');
            // Create Media object from src
 	    stopAudio();
 	    
@@ -277,6 +282,7 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
+		alert("playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');");
 		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
