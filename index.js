@@ -160,6 +160,7 @@ function nextSong(forward){
 	alert('getting song: '+ cur_song);
 	getSong(cur_song, function(json){
 		if (json){
+			json = jQuery.parseJSON(json);
 			alert('json recieved: '+ json);
 			playAudio(json.path, json.title, cur_song);
 		}else{
@@ -260,11 +261,13 @@ function getSong(num, callback){
 			if (i==num){
 				alert('found song: '+ i);
 				callback("{'path':'"+entries[i].fullPath  +"', 'title':'"+entries[i].name+"'}");
+				return;
 			}
 	    }
 		
 		alert('no song found...');
 		callback(null);
+		return;
 	}
 	
 	function fail(error) {
@@ -285,7 +288,6 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		alert("playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');");
 		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }

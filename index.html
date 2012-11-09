@@ -73,9 +73,9 @@
 		<center>
 		<p><span id="songName">No Song Selected.</span></p>
 		<div data-role="controlgroup" data-type="horizontal" >
-			<a href="#" data-iconpos="top" data-icon="back" data-role="button">Last</a>
+			<a href="#preSong" onclick="nextSong(false)" data-iconpos="top" data-icon="back" data-role="button">Last</a>
 			<a href="#playPauseAudio" data-iconpos="top" id="playPauseButtonID" data-icon="arrow-r" onclick="playPauseAudio()" data-role="button">Play</a>
-			<a href="#nextSong" data-iconpos="top" data-icon="forward" data-role="button">Next</a>
+			<a href="#nextSong" onclick="nextSong(true)" data-iconpos="top" data-icon="forward" data-role="button">Next</a>
 		</div>
 		
 		<div data-role="fieldcontain">
