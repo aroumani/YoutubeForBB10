@@ -198,13 +198,7 @@ function playAudio(src, name, num) {
            // Create Media object from src
 	    stopAudio();
 	    
-		my_media = new Media(src, function(){}, function(){}, function status(constant){
-			if (constant==Media.MEDIA_STOPPED){
-				if (mediaPlaying){
-					nextSong(true);
-				}
-			}
-		});
+		my_media = new Media(src, function(){}, function(){});
 
 		// Update media position every second
 		var mediaTimer = setInterval(function() {
@@ -213,8 +207,13 @@ function playAudio(src, name, num) {
 				// success callback
 				function(position) {
 					if (position > -1) {
-						$('#songSlider').val(""+(position/my_media.getDuration() * 100));
+						var posInt = (position/my_media.getDuration() * 100);
+						$('#songSlider').val(""+);
 						$('#songSlider').slider('refresh');
+						
+						if (posInt>=99){
+							nextSong(true);
+						}
 					}
 				},
 				// error callback
