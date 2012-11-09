@@ -4,15 +4,15 @@
 	id		= "com.cc.youtube"
 	version   = "1.0.3">
 
-	<name>uTube Leecher</name>
+	<name>uTube Leech</name>
 
 	<description>
-		My amazing uTube viewer
+		uTube Leecher
 	</description>
 
 	<author href="http://workplaymobile.com"
 		email="support@workplaymobile.com">
-		Adib
+		AR
 	</author>
 
 	<icon src="icon.png" width="57" height="57" />
