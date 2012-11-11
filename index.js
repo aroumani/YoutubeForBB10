@@ -24,11 +24,13 @@ function dirReady(entry) {
 
 
 downloadFile = function(atr, url, fname){
+
+    salert('dl starting...');
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
 
-    //alert('try:'+ filePath); 
+    alert('try:'+ filePath); 
     fileTransfer.download(
         url,
         filePath,
