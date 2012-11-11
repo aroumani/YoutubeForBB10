@@ -28,16 +28,15 @@ downloadFile = function(atr, url, fname){
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
 
-	$('#dl_toast').toast('show');
     //alert('try:'+ filePath); 
     fileTransfer.download(
         url,
         filePath,
         function(entry) {
-		alert('Download Complete for: ' + fname + ".mp3" + ' File saved to: [' + filePath +']');
+		alert('Download Complete for: ' + fname + ".mp3");
         },
         function(error) {
-		  alert('An error occurd while trying to download: ' + fname + ".mp3" + ' Attempted to save file saved to: [' + filePath +']');
+		  alert('An error occurd while trying to download: ' + fname + ".mp3");
         }
     );
 }
@@ -47,20 +46,18 @@ $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
-	$.mobile.buttonMarkup.hoverDelay=0;
-	
-	$.mobile.loader.prototype.options.text = "loading";
-  $.mobile.loader.prototype.options.textVisible = false;
-  $.mobile.loader.prototype.options.theme = "a";
-  $.mobile.loader.prototype.options.html = "";
     
     
 });
 
 
 var info=null;
+var player=null;
 function pageLoad(){
-      
+
+	$('#two').live('pagehide',function(event, ui){
+		player.stopVideo();
+	});
 	
 	 $(document).ajaxError(function(event, request, setting) 
 { 
@@ -75,8 +72,29 @@ function pageLoad(){
 	     }
 	}).focus();
 	
+	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
+	//player.stopVideo()
+	
 }
 
+function loadVideo(videoID){
+
+//wA4ppvp2IzY
+
+//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v=3U72hzeBLOw
+//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v=wA4ppvp2IzY&r=1351652598093
+//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch%3Fv%3DwA4ppvp2IzY&xy=yx&bf=false&r=1351652598093
+//wA4ppvp2IzY
+
+//http://www.youtube-mp3.org/api/itemInfo/?video_id=wA4ppvp2IzY&ac=www&r=1351652598222
+//info = { "title" : "One and Only - Adele (Lyrics)", "image" : "http://i.ytimg.com/vi/wA4ppvp2IzY/default.jpg", "length" : "5", "status" : "serving",  "progress_speed" : "",  "progress" : "",  "ads" : "",  "pf" : "http://d27e.u.aclst.com/ping.php?video_id=wA4ppvp2IzY&h=1040",  "h" : "8e61d58bf57d57021c631c02a219af3b"  }
+
+//http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h=8e61d58bf57d57021c631c02a219af3b&r=1351652598334
+
+	player.loadVideoById(videoID);//, startSeconds:Number, suggestedQuality:String)
+	
+	return true;
+}
 
 function download(atr, videoID){
 
@@ -88,13 +106,13 @@ function download(atr, videoID){
 		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
 		//alert('test');
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
-			//console.log(info.h);
+			console.log(info.h);
 			//alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/[^a-z0-9]/gi, '_').toLowerCase());
 			}else{
-				//alert('Video Cannot Be Downloaded...');
+				alert('Video Cannot Be Downloaded...');
 			}
 				
 		});
@@ -110,13 +128,13 @@ function checkForDownload(videoID, el){
 		//$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id=Ki86x1WKPmE', function() {
 		
 		
-			//console.log(info);
+			console.log(info);
 			//console.log("http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h="+info.h);
 			if (info != null){
 				el.show();
 				info=null;
 			}else{
-				//alert('Video Cannot Be Downloaded...');
+				alert('Video Cannot Be Downloaded...');
 			}
 				
 		});
@@ -126,149 +144,36 @@ function checkForDownload(videoID, el){
 }
 
 // Audio player
-var mediaPlaying=false;
 var my_media = null;
 var mediaTimer = null;
-var cur_song=0;
 
 function pauseAudio(){
 	if (my_media){
 		my_media.pause();
-		$("#playPauseButtonID").jqmData('icon','arrow-r');
-		$("#playPauseButtonID .ui-icon").addClass("ui-icon-arrow-r").removeClass("ui-icon-delete");
-		mediaPlaying=false;
 	  }
 }
 
 function resumeAudio(){
 	if (my_media){
-		mediaPlaying=true;
-		$("#playPauseButtonID").jqmData('icon','delete');
-		$("#playPauseButtonID .ui-icon").addClass("ui-icon-delete").removeClass("ui-icon-arrow-r");
 		my_media.play();
 	  }
 }
 
-function nextSong(forward){
-	stopAudio();
-	if (forward){
-		cur_song++;
-	}else{
-		cur_song--;
-	}
-	
-
-	getSong(cur_song, function(path, name){
-		if (path){
-			playAudio(path, name, cur_song);
-		}else{
-			if (forward){
-				cur_song=-1;
-			}else{
-				cur_song=1;
-			}
-			nextSong(forward);
-		}
-	});
-}
-
-function stopAudio(){
+function stopAudio() {
 	if (my_media){
-		mediaPlaying=false;
-		$("#playPauseButtonID").jqmData('icon','arrow-r');
-		$("#playPauseButtonID .ui-icon").addClass("ui-icon-arrow-r").removeClass("ui-icon-delete");
 		my_media.stop();
 	  }
 }
-
-function playPauseAudio() {
-	if (my_media){
-		if(mediaPlaying){
-			pauseAudio();
-		}else{
-			resumeAudio();
-		}
-	  }
-}
-function playAudio(src, name, num) {
-
-		$("#songName").html(name);
-		
-		cur_song=num;
-           // Create Media object from src
+function playAudio(src) {
+            // Create Media object from src
 	    stopAudio();
 	    
-		my_media = new Media(src, function(){}, function(){});
+            my_media = new Media(src, function(){}, function(){alert('failed to load');});
 
-		// Update media position every second
-		var mediaTimer = setInterval(function() {
-			// get media position
-			my_media.getCurrentPosition(
-				// success callback
-				function(position) {
-					if (position > -1) {
-						var posInt = (position/my_media.getDuration() * 100);
-						$('#songSlider').val(""+);
-						$('#songSlider').slider('refresh');
-						
-						if (posInt>=99){
-							nextSong(true);
-						}
-					}
-				},
-				// error callback
-				function(e) {
-					console.log("Error getting pos=" + e);
-				}
-			);
-		}, 1000);
-	
-		// Play audio
-		resumeAudio();
+            // Play audio
+            my_media.play();
 }
 
-function getNumSongs(callback){
-	function dirsRead(entries) {
-		callback(entries.length);
-	}
-	
-	function fail(error) {
-		alert("Failed to list directory contents: " + error.code);
-		callback(null);
-	}
-	
-	// Get a directory reader
-	var directoryReader = window.appRootDir.createReader();
-
-	// Get a list of all the entries in the directory
-	directoryReader.readEntries(dirsRead,fail);
-}
-
-function getSong(num, callback){
-	function dirsRead(entries) {
-	    var i;
-	    for (i=0; i<entries.length; i++) {
-			if (i==num){
-				callback(entries[i].fullPath, entries[i].name);
-				return;
-			}
-	    }
-		
-		callback(null);
-		return;
-	}
-	
-	function fail(error) {
-		alert("Failed to list directory contents: " + error.code);
-		callback(null);
-	}
-	
-	// Get a directory reader
-	var directoryReader = window.appRootDir.createReader();
-
-	// Get a list of all the entries in the directory
-	directoryReader.readEntries(dirsRead,fail);
-}
 
 function refresh(){
 
@@ -276,7 +181,7 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\', \''+ entries[i].name +'\', ' + i + ');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
@@ -299,6 +204,7 @@ function refresh(){
 
 function watchVideo(videoID){
 	var uri="http://www.youtube.com/watch?v="+videoID;
+	alert(uri);
 	try{
 		navigator.app.loadUrl(uri, { openExternal:true });
 	}catch(ex){
@@ -307,6 +213,7 @@ function watchVideo(videoID){
 }
 
 function search(){
+
 	var q=$("#searchField").val();
 	
 	jQTubeUtil.search(q, function(response){
@@ -320,7 +227,7 @@ function search(){
 				<p>Arcade Fire</p>
 				</a><a href="#purchase" data-rel="popup" data-position-to="window" data-transition="pop">Purchase album</a>
 			</li>*/	
-		//console.log(video);
+		console.log(video);
 		
 		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a onclick="watchVideo(\''+video.videoId+'\');"class="watchVideo" href="#"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
 			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
@@ -343,10 +250,10 @@ function search(){
 		}
 		$(this).simpledialog({
 		    'mode' : 'bool',
-		    'prompt' : 'Are you sure?',
+		    'prompt' : 'Are You Sure?',
 		    'useModal': true,
 		    'buttons' : {
-		      'Download': {
+		      'OK': {
 			click: function () {
 				download($(this), $(this).parent("li").jqmData("videoid"));
 			}
