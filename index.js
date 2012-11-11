@@ -101,15 +101,14 @@ function loadVideo(videoID){
 function download(atr, videoID){
 
 
-	
+	alert('test dl '+ videoID);
 	$.mobile.allowCrossDomainPages = true;
 	//queue converstion
 		
 		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
-		//alert('test');
+		alert('test');
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
-			console.log(info.h);
-			//alert(info.h);
+			alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/[^a-z0-9]/gi, '_').toLowerCase());
@@ -257,6 +256,7 @@ function search(){
 		    'buttons' : {
 		      'OK': {
 			click: function () {
+				alert('test');
 				download($(this), $(this).parent("li").jqmData("videoid"));
 			}
 		      },
