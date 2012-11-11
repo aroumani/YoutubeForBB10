@@ -25,7 +25,7 @@ function dirReady(entry) {
 
 downloadFile = function(atr, url, fname){
 
-    salert('dl starting...');
+    alert('dl starting...');
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
@@ -215,8 +215,9 @@ function watchVideo(videoID){
 
 function search(){
 
+	 $.mobile.showPageLoadingMsg("b", "Searching for videos...");
+	 
 	var q=$("#searchField").val();
-	
 	jQTubeUtil.search(q, function(response){
 	var html = "";
 	for(v in response.videos){
@@ -269,6 +270,7 @@ function search(){
 		    }
 		  });
 	});
+		$.mobile.hidePageLoadingMsg();
 	});
 	
 	

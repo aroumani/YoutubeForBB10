@@ -3,18 +3,14 @@
 <head> 
 	<title>My App</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
-	<link rel="stylesheet" type="text/css" href="jquery.mobile.simpledialog.min.css" />
-	<link rel="stylesheet" type="text/css" href="jquery.mobile.toast.css" />
-	<script src="jquery-1.8.2.min.js"></script>
-	<script src="jquery.mobile-1.2.0.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 	<script type="text/javascript" src="phonegap.js"></script > 
 	<script type="text/javascript" src="cordova.js"></script > 
-	<script type="text/javascript" src="jquery.mobile.simpledialog.min.js"></script>
-	
-	<script src="jquery.mobile.toast.js"></script>
-	
-	
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.js"></script>
+	<script src="http://youtube.com/iframe_api"></script>
 	<script src="jqSearch.js"></script>
 	<script type="text/javascript">
 	jQTubeUtil.init({
@@ -37,95 +33,46 @@
 
 
 <div data-role="page" id="search">
-	<div data-role="header">
-		<a href="#nowPlaying" data-icon="arrow-r" data-theme="e" class="ui-btn-left">Player</a>
+	<div data-role="header" data-position="fixed">
+		<a href="#music" data-icon="grid" data-theme="e" class="ui-btn-left">My Downloads</a>
 		<h1>Search</h1>
 		<a href="#about" data-icon="gear" data-theme="b" class="ui-btn-right">About</a>
+		<table align="center" style="margin-left:10px" width="100%"><tr>
+		<td width="90%" ><input type="search" name="search" data-theme="b" id="searchField" placeholder="Enter kewords here..." value="" /></td>
+		<td><button data-inline="true" onclick="search()" data-theme="e">Search</button></td>
+		</tr></table>
 	</div><!-- /header -->
 	<div data-role="content">
-		<div id="dl_toast" data-role="toast">Download Started...</div>
-		<input type="search" name="search" data-theme="a" id="searchField" placeholder="Enter kewords here..." value="" />
-		<button onclick="search()">Search</button><br/>
+	
+		
 		<ul id="videoList" data-role="listview" data-split-icon="plus" data-split-theme="a">
 			
 		</ul>
 	</div><!-- /content -->
-	<div data-role="footer"> 
+	<div data-role="footer" data-position="fixed"> 
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
-
-<div data-role="page" id="nowPlaying">
-
-	<div data-role="header">
-		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-right">Search</a>
-		<h1>Now Playing</h1>
-		<div data-role="navbar">
-		<ul>
-			<li><a data-theme="b" onclick="pauseAudio()" href="#music">My Library</a></li>
-			<li><a data-theme="b" class="ui-btn-active" onclick="resumeAudio()" href="#">Now Playing</a></li>
-		</ul>
-	</div><!-- /navbar -->
-	</div><!-- /header -->
-
-	<div data-role="content">
-	
-		<center>
-		<p><span id="songName">No Song Selected.</span></p>
-		<div data-role="controlgroup" data-type="horizontal" >
-			<a href="#preSong" onclick="nextSong(false)" data-iconpos="top" data-icon="back" data-role="button">Last</a>
-			<a href="#playPauseAudio" data-iconpos="top" id="playPauseButtonID" data-icon="arrow-r" onclick="playPauseAudio()" data-role="button">Play</a>
-			<a href="#nextSong" onclick="nextSong(true)" data-iconpos="top" data-icon="forward" data-role="button">Next</a>
-		</div>
-		
-		<div data-role="fieldcontain">
-			<input type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
-		</div>
-		
-		
-		
-		<div data-role="controlgroup" data-type="horizontal" >
-			<input type="radio" name="radio-choice-b" id="radio-choice-c" value="on"/>
-			<label for="radio-choice-c">Shuffle On</label>
-			<input type="radio" name="radio-choice-b" id="radio-choice-d" value="off" checked="checked" />
-			<label for="radio-choice-d">Shuffle Off</label>
-		</div>
-		
-		<div data-role="controlgroup" data-type="horizontal" >
-			<input  type="radio" name="radio-choice-e" id="radio-choice-f" value="on" />
-			<label for="radio-choice-f">Repeat On</label>
-			<input type="radio" name="radio-choice-e" id="radio-choice-g" value="off" checked="checked"  />
-			<label for="radio-choice-g">Repeat Off</label>
-		</div>
-		
-		
-
-		</center>
-	</div><!-- /content -->
-	
-	
-	<div data-role="footer"> 
-	<h4>Compuscope Consulting</h4> 
-	</div> 
-</div>
 
 <div data-role="page" id="music">
 
 	<div data-role="header">
 		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-right">Search</a>
-		<h1>My Library</h1>
+		<h1>Downloads</h1>
 		<div data-role="navbar">
 		<ul>
-			<li><a data-theme="b" class="ui-btn-active" onclick="pauseAudio()" href="#">My Library</a></li>
-			<li><a data-theme="b" onclick="resumeAudio()" href="#nowPlaying">Now Playing</a></li>
+			<li><a data-theme="b" onclick="resumeAudio()" href="#">Resume</a></li>
+			<li><a data-theme="b" onclick="pauseAudio()" href="#">Pause</a></li>
+			<li><a data-theme="b" onclick="stopAudio()" href="#">Stop</a></li>
 		</ul>
 	</div><!-- /navbar -->
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<button onclick="refresh()">Refresh</button><br/><br/>
+		<p>All the content you have downloaded will be below.</p>
+		<p>Files saved to: <span id="fileLoc"></span></p>
+		<button onclick="refresh()">Refresh</button><br/>
 		<ul id="musicList" data-role="listview" data-split-icon="search" data-split-theme="a">
-			
 		</ul>
 	</div><!-- /content -->
 	
