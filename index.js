@@ -1,6 +1,7 @@
 window.appRootDirName = "download_mp";
 document.addEventListener("deviceready", onDeviceReady, false);
 var lock=false;
+var songLock=false;
 function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
@@ -54,13 +55,8 @@ $( document ).bind( "mobileinit", function() {
 
 
 var info=null;
-var player=null;
 function pageLoad(){
 
-	$('#two').live('pagehide',function(event, ui){
-		player.stopVideo();
-	});
-	
 	 $(document).ajaxError(function(event, request, setting) 
 { 
                     alert('fuckk...');
@@ -74,29 +70,17 @@ function pageLoad(){
 	     }
 	}).focus();
 	
+	
+	$('#music').live( 'pageshow',function(event, ui){
+		refresh();
+	});
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
 	
-}
-
-function loadVideo(videoID){
-
-//wA4ppvp2IzY
-
-//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v=3U72hzeBLOw
-//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v=wA4ppvp2IzY&r=1351652598093
-//http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch%3Fv%3DwA4ppvp2IzY&xy=yx&bf=false&r=1351652598093
-//wA4ppvp2IzY
-
-//http://www.youtube-mp3.org/api/itemInfo/?video_id=wA4ppvp2IzY&ac=www&r=1351652598222
-//info = { "title" : "One and Only - Adele (Lyrics)", "image" : "http://i.ytimg.com/vi/wA4ppvp2IzY/default.jpg", "length" : "5", "status" : "serving",  "progress_speed" : "",  "progress" : "",  "ads" : "",  "pf" : "http://d27e.u.aclst.com/ping.php?video_id=wA4ppvp2IzY&h=1040",  "h" : "8e61d58bf57d57021c631c02a219af3b"  }
-
-//http://www.youtube-mp3.org/get?video_id=wA4ppvp2IzY&h=8e61d58bf57d57021c631c02a219af3b&r=1351652598334
-
-	player.loadVideoById(videoID);//, startSeconds:Number, suggestedQuality:String)
+	search();
 	
-	return true;
 }
+
 
 function download(atr, videoID){
 
@@ -157,22 +141,32 @@ function pauseAudio(){
 function resumeAudio(){
 	if (my_media){
 		my_media.play();
+		songStatus
 	  }
 }
 
 function stopAudio() {
 	if (my_media){
 		my_media.stop();
+		$("#songStatus").html("<p>Stopped: [No Song Selected]</p>");
+		my_media.release();
 	  }
 }
 function playAudio(src) {
+	
+		if (songLock){return;}
+		else{
+			songLock=true;
+			var t=setTimeout(function(){songLock=false;},1000);
+		}
             // Create Media object from src
 	    stopAudio();
 	    
-            my_media = new Media(src, function(){}, function(){alert('failed to load');});
-
+            my_media = new Media(src, function(){}, function(medError){alert(medError.message);});
+		
             // Play audio
             my_media.play();
+	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
 
 
@@ -182,7 +176,7 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="plus" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
