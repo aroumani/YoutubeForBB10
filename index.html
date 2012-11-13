@@ -82,10 +82,11 @@
 	
 	
 	<div data-role="footer" data-position="fixed"> 
-	<center><span id="songStatus">Stopped: [No Song Selected]<span></center>
+	<center><span id="songStatus">Stopped: [No Song Selected]<span><br/>
+	</center>
 	<table align="center" width="100%"><tr>
-	<td width="33%" ><button data-theme="e" onclick="resumeAudio()" href="#">Resume</button></td>
-	<td width="33%" ><button data-theme="e" onclick="pauseAudio()" href="#">Pause</button></td>
+	<td align="right">%<input type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" /></td>
+	<td width="10%" align="left"><button align="left" data-theme="e" id="playPauseButton" onclick="resumeAudio()" href="#">Play</button></td>
 	</tr></table>
 	</div> 
 </div>

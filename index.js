@@ -145,17 +145,20 @@ function checkForDownload(videoID, el){
 var my_media = null;
 var mediaTimer = null;
 
-function pauseAudio(){
-	if (my_media){
-		my_media.pause();
-	  }
-}
-
 function resumeAudio(){
 	if (my_media){
-		playing=true;
-		my_media.play();
-		$("#songStatus").html("<p>Playing</p>");
+		if (playing){
+			playing=false
+			my_media.pause();
+			$("#playPauseButton").html("Play");
+			$("#songStatus").html("<p>Paused</p>");
+		}else{
+			playing=true;
+			my_media.play();
+			$("#playPauseButton").html("Pause");
+			$("#songStatus").html("<p>Playing</p>");
+		}
+		
 	  }
 }
 
@@ -163,6 +166,7 @@ function stopAudio() {
 	if (my_media){
 		playing=false;
 		my_media.stop();
+		$('#songSlider').val(0);
 		$("#songStatus").html("<p>Stopped: [No Song Selected]</p>");
 		my_media.release();
 		my_media=null;
@@ -173,6 +177,13 @@ function playAudioByNum(index){
 	function dirsRead(entries) {
 	    var html="";
 	    var i;
+	    
+	    if (index>=entries.length){
+		index=0;
+	    }else if (index<0){
+		index=entries.length-1;
+	    }
+	    
 	    for (i=0; i<entries.length; i++) {
 		if (i==index){
 			curSong=index;
@@ -207,11 +218,38 @@ function playAudio(src) {
 	    stopAudio();
 	    
             my_media = new Media(src, function(){
-		alert('song complete');
+		if (playing)
+		{
+			curSong++;
+			playAudioByNum(curSong);
+		}
 	    }, function(medError){alert(medError.message);});
-		
+	
+	    // Update media position every second
+	    if(mediaTimer){
+		mediaTimer = setInterval(function() {
+			// get media position
+			if (my_media){
+				my_media.getCurrentPosition(
+					// success callback
+					function(position) {
+						if (position > -1) {
+							var posInt = (position/my_media.getDuration() * 100);
+							$('#songSlider').val(posInt);
+							$('#songSlider').slider('refresh');
+						}
+					},
+					// error callback
+					function(e) {
+						console.log("Error getting pos=" + e);
+					}
+				);
+			}
+		}, 1000);
+	    }
             // Play audio
 	    playing=true;
+	    $("#playPauseButton").html("Pause");
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
