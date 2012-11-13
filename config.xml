@@ -2,17 +2,17 @@
 <widget xmlns		= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		= "com.cc.youtube"
-	version   = "1.0.3">
+	version   = "1.0.2">
 
-	<name>uTube Leech</name>
+	<name>YoutubeForBB10</name>
 
 	<description>
-		uTube Leecher
+		My amazing youtube viewer
 	</description>
 
 	<author href="http://workplaymobile.com"
 		email="support@workplaymobile.com">
-		AR
+		Adib
 	</author>
 
 	<icon src="icon.png" width="57" height="57" />
@@ -21,8 +21,8 @@
 	<icon src="icon.png" gap:platform="android" gap:density="ldpi" />
 	<icon src="icon.png" gap:platform="android" gap:density="mdpi" />
 	<icon src="icon.png" gap:platform="android" gap:density="hdpi" />
-	<icon src="icon.png" gap:platform="blackberry" />
-	<icon src="icon.png" gap:platform="blackberry" gap:state="hover"/>
+	<icon src="iconBB.png" gap:platform="blackberry" />
+	<icon src="iconBB.png" gap:platform="blackberry" gap:state="hover"/>
 	<icon src="icon.png" gap:platform="winphone" />
 	<icon src="icon.png" gap:platform="winphone" gap:role="background" />
 
