@@ -25,6 +25,17 @@ function dirReady(entry) {
     //$("#fileLoc").html(entry.fullPath);
 }
 
+function showModal(str){
+  $("body").append('<div class="modalWindow"/>');
+  $.mobile.showPageLoadingMsg("b", str);
+  setTimeout('hideModal()', 2000);
+}
+
+function hideModal(){
+ $(".modalWindow").remove();
+  $.mobile.hidePageLoadingMsg();
+
+}
 
 downloadFile = function(atr, url, fname){
 
@@ -33,19 +44,17 @@ downloadFile = function(atr, url, fname){
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
-    alert('test');
-    $.mobile.showPageLoadingMsg("b", "Starting Download ["+filePath+"]");
-    alert('test2');
+    showModal("Starting Download ["+filePath+"]");
     
     fileTransfer.download(
         url,
         filePath,
         function(entry) {
-		$.mobile.hidePageLoadingMsg();
+		hideModal();
 		alert('Download Complete for: ' + fname + ".mp3");
         },
         function(error) {
-		$.mobile.hidePageLoadingMsg();
+		hideModal();
 		alert('An error occurd while trying to download: ' + fname + ".mp3");
         }
     );
@@ -247,7 +256,7 @@ function watchVideo(videoID){
 
 function search(){
 
-	 $.mobile.showPageLoadingMsg("b", "Searching for videos...");
+	 showModal("Searching for videos...");
 	 
 	var q=$("#searchField").val();
 	jQTubeUtil.search(q, function(response){
@@ -301,7 +310,7 @@ function search(){
 		    }
 		  });
 	});
-		$.mobile.hidePageLoadingMsg();
+		hideModal();
 	});
 	
 	
