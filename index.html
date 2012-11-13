@@ -7,10 +7,11 @@
 	<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	<link href="jquery.loadmask.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="jquery.loadmask.min.js"></script>
 	<script type="text/javascript" src="phonegap.js"></script > 
 	<script type="text/javascript" src="cordova.js"></script > 
 	<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.js"></script>
-	<script src="http://youtube.com/iframe_api"></script>
 	<script src="jqSearch.js"></script>
 	<script type="text/javascript">
 	jQTubeUtil.init({
@@ -40,16 +41,33 @@
 		.ui-loader{
 		    z-index: 1501;
 		}
+		
 	</style>
 	
 </head> 
 <body onload="pageLoad();"> 
 
 
+<div data-role="dialog">
+	<div data-role="header" data-theme="a" class="ui-corner-top">
+		<h1>Agreement</h1>
+	</div>
+	<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+		<h3 class="ui-title">Terms and Usage</h3>
+		By proceeding you agree to use this service while not violating any copywrite laws.<hr/>
+		<span>If you see:<a href="#" data-theme="e" data-role="button" data-icon="plus" data-iconpos="notext">Plus</a> Click to download.<span>
+		<button onclick="popupClose(true);" data-theme="b">Sounds good</button>       
+		<button onclick="popupClose(false);" data-theme="d">Cancel</button>       
+	</div>
+</div>
+	
 <div data-role="page" id="search">
+
+	
+
 	<div data-role="header" data-position="fixed">
 		<a href="#music" data-icon="grid" data-theme="e" class="ui-btn-left">Downloads</a>
-		<h1>uTube Leech</h1>
+		<h1>MP3Leech</h1>
 		<a href="#about" data-icon="gear" data-theme="b" class="ui-btn-right">About</a>
 		<table align="center" width="100%"><tr>
 		<td width="85%" ><input type="search" name="search" data-theme="b" id="searchField" placeholder="Enter keywords here..." value="" /></td>
@@ -57,12 +75,12 @@
 		</tr></table>
 	</div><!-- /header -->
 	<div data-role="content">
-	
+		<a id='lnkDialog' href="#dialog" data-rel="dialog" data-transition="pop" style='display:none;'></a>
 		<ul id="videoList" data-role="listview" data-split-icon="plus" data-split-theme="a">
 			
 		</ul>
 	</div><!-- /content -->
-	<div data-role="footer" data-position="fixed"> 
+	<div data-role="footer"> 
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
@@ -82,13 +100,13 @@
 	
 	
 	<div data-role="footer" data-position="fixed"> 
-	<center><span id="songStatus">Stopped: [No Song Selected]<span><br/>
+	<center><span style="white-space:nowrap;" id="songStatus">Stopped: [No Song Selected]<span><br/>
 	%<input type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
 	</center>
 	<table align="center" width="100%"><tr>
-	<td width="10%" align="left"><button align="left" data-theme="e" onclick="prevSong()" href="#">Prev</button></td>
-	<td width="10%" align="left"><button align="left" data-theme="e" id="playPauseButton" onclick="resumeAudio()" href="#">Play</button></td>
-	<td width="10%" align="left"><button align="left" data-theme="e" onclick="nextSong()" href="#">Next</button></td>
+	<td width="10%"><button align="left" data-theme="e" onclick="prevSong()" href="#">Prev</button></td>
+	<td width="10%"><button align="left" data-theme="e" id="playPauseButton" onclick="resumeAudio()" href="#">Play</button></td>
+	<td width="10%"><button align="left" data-theme="e" onclick="nextSong()" href="#">Next</button></td>
 	</tr></table>
 	</div> 
 </div>

@@ -28,7 +28,6 @@ function dirReady(entry) {
 function showModal(str){
   $("body").append('<div class="modalWindow"/>');
   $.mobile.showPageLoadingMsg("b", str);
-  setTimeout('hideModal()', 2000);
 }
 
 function hideModal(){
@@ -40,11 +39,12 @@ function hideModal(){
 downloadFile = function(atr, url, fname){
 
     
-    
+    try{
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
     showModal("Starting Download ["+filePath+"]");
+    
     
     fileTransfer.download(
         url,
@@ -58,6 +58,10 @@ downloadFile = function(atr, url, fname){
 		alert('An error occurd while trying to download: ' + fname + ".mp3");
         }
     );
+    }catch(ex){
+	hideModal();
+	alert("Error: " + ex);
+    }
 }
 
 
@@ -93,13 +97,20 @@ function pageLoad(){
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
 	
-	search();
-	
+	$("#lnkDialog").click();
 }
 
+function popupClose(agree){
+
+	$.mobile.changePage('#search'); 
+	if (agree){
+		search();
+	}else{
+		alert("You should quit this application...");
+	}
+}
 
 function download(atr, videoID){
-
 
 	$.mobile.allowCrossDomainPages = true;
 	//queue converstion
@@ -168,6 +179,7 @@ function stopAudio() {
 	if (my_media){
 		playing=false;
 		my_media.stop();
+		$("#songSlider").attr('disabled','true');
 		$('#songSlider').val(0);
 		$("#songStatus").html("<p>Stopped: [No Song Selected]</p>");
 		my_media.release();
@@ -243,6 +255,13 @@ function playAudio(src) {
 		mediaTimer = setInterval(function() {
 			// get media position
 			if (my_media){
+				
+				$("#songSlider").live("change", function() {
+					var songVal = $(this).val();
+					my_media.seekTo(songVal/100 * my_media.getDuration());
+				});
+				
+				
 				my_media.getCurrentPosition(
 					// success callback
 					function(position) {
@@ -262,9 +281,9 @@ function playAudio(src) {
 	    }
             // Play audio
 	    playing=true;
-	    alert('test');
 	    $("#playPauseButton").html("Pause");
 	    $("#playPauseButton").button('refresh');
+	    $("#songSlider").removeAttr('disabled');
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
@@ -309,7 +328,7 @@ function watchVideo(videoID){
 
 function search(){
 
-	 showModal("Searching for videos...");
+	showModal("Searching for videos...");
 	 
 	var q=$("#searchField").val();
 	jQTubeUtil.search(q, function(response){
@@ -326,7 +345,7 @@ function search(){
 		console.log(video);
 		
 		html += ('<li data-icon="plus" data-videoid="'+video.videoId+'" ><a onclick="watchVideo(\''+video.videoId+'\');"class="watchVideo" href="#"><img style"vertical-align: middle;" width="120px" height="90px" src="'+video.thumbs[1].url+'" /><h2>'+video.title+'</h2><p><i>'+video.viewCount+' views</i><br/>'+video.description+'</p></a>'+
-			 '<a class="dlLink" href="#" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
+			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Download MP3</a>'+
 			 '</li>');
 	}
 	$("#videoList").html(html);

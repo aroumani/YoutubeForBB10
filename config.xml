@@ -2,17 +2,17 @@
 <widget xmlns		= "http://www.w3.org/ns/widgets"
 	xmlns:gap	= "http://phonegap.com/ns/1.0"
 	id		= "com.cc.youtube"
-	version   = "1.0.2">
+	version   = "2.0.0">
 
-	<name>uTubeLeech</name>
+	<name>MP3Leech</name>
 
 	<description>
-		uTube Leeche
+		MP3Leech
 	</description>
 
 	<author href="http://workplaymobile.com"
 		email="support@workplaymobile.com">
-		CC
+		Compuscope Consulting
 	</author>
 
 	<icon src="icon.png" width="57" height="57" />
