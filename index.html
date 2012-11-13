@@ -59,13 +59,6 @@
 		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-right">Search</a>
 		<h1>Downloads</h1>
 		
-		<center><span id="songStatus">Stopped: [No Song Selected]<span></center>
-		<table align="center" width="100%"><tr>
-		<td width="33%" ><button data-theme="b" onclick="resumeAudio()" href="#">Resume</button></td>
-		<td width="33%" ><button data-theme="b" onclick="pauseAudio()" href="#">Pause</button></td>
-		<td width="33%" ><button data-theme="b" onclick="stopAudio()" href="#">Stop</button></td>
-		</tr></table>
-		
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -75,7 +68,11 @@
 	
 	
 	<div data-role="footer" data-position="fixed"> 
-	<h4>Compuscope Consulting</h4> 
+	<center><span id="songStatus">Stopped: [No Song Selected]<span></center>
+	<table align="center" width="100%"><tr>
+	<td width="33%" ><button data-theme="e" onclick="resumeAudio()" href="#">Resume</button></td>
+	<td width="33%" ><button data-theme="e" onclick="pauseAudio()" href="#">Pause</button></td>
+	</tr></table>
 	</div> 
 </div>
 

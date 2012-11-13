@@ -2,6 +2,8 @@ window.appRootDirName = "download_mp";
 document.addEventListener("deviceready", onDeviceReady, false);
 var lock=false;
 var songLock=false;
+var curSong=null;
+var playing=false;
 function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
@@ -26,20 +28,21 @@ function dirReady(entry) {
 
 downloadFile = function(atr, url, fname){
 
-    alert('dl starting...');
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
 
-    alert('try:'+ filePath); 
+    $.mobile.showPageLoadingMsg("b", "Starting Download ["+filePath+"]");
     fileTransfer.download(
         url,
         filePath,
         function(entry) {
+		$.mobile.hidePageLoadingMsg();
 		alert('Download Complete for: ' + fname + ".mp3");
         },
         function(error) {
-		  alert('An error occurd while trying to download: ' + fname + ".mp3");
+		$.mobile.hidePageLoadingMsg();
+		alert('An error occurd while trying to download: ' + fname + ".mp3");
         }
     );
 }
@@ -85,14 +88,11 @@ function pageLoad(){
 function download(atr, videoID){
 
 
-	alert('test dl '+ videoID);
 	$.mobile.allowCrossDomainPages = true;
 	//queue converstion
 		
 		$.getScript('http://www.youtube-mp3.org/api/pushItem/?item=http%3A//www.youtube.com/watch?v='+videoID, function() {});
-		alert('test');
 		$.getScript('http://www.youtube-mp3.org/api/itemInfo/?video_id='+videoID, function() {
-			alert(info.h);
 			if (info != null){
 				//window.open("http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h);
 				downloadFile(atr, "http://www.youtube-mp3.org/get?video_id="+videoID+"&h="+info.h, info.title.replace(/[^a-z0-9]/gi, '_').toLowerCase());
@@ -140,17 +140,47 @@ function pauseAudio(){
 
 function resumeAudio(){
 	if (my_media){
+		playing=true;
 		my_media.play();
-		songStatus
+		$("#songStatus").html("<p>Playing</p>");
 	  }
 }
 
 function stopAudio() {
 	if (my_media){
+		playing=false;
 		my_media.stop();
 		$("#songStatus").html("<p>Stopped: [No Song Selected]</p>");
 		my_media.release();
+		my_media=null;
 	  }
+}
+
+function playAudioByNum(index){
+	function dirsRead(entries) {
+	    var html="";
+	    var i;
+	    for (i=0; i<entries.length; i++) {
+		if (i==index){
+			curSong=index;
+			playAudio(entries[i].fullPath);
+			return;
+		}
+	    }
+	    
+	    $("#musicList").html(html);
+	    $("#musicList").listview("refresh"); 
+	}
+	
+	function fail(error) {
+		alert("Failed to list directory contents: " + error.code);
+	}
+	
+	// Get a directory reader
+	var directoryReader = window.appRootDir.createReader();
+
+	// Get a list of all the entries in the directory
+	directoryReader.readEntries(dirsRead,fail);
 }
 function playAudio(src) {
 	
@@ -160,11 +190,15 @@ function playAudio(src) {
 			var t=setTimeout(function(){songLock=false;},1000);
 		}
             // Create Media object from src
+	    playing=true;
 	    stopAudio();
 	    
-            my_media = new Media(src, function(){}, function(medError){alert(medError.message);});
+            my_media = new Media(src, function(){
+		alert('song complete');
+	    }, function(medError){alert(medError.message);});
 		
             // Play audio
+	    playing=true;
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
@@ -176,7 +210,8 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h2>'+entries[i].name+'</h2></a>'+
+		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
 	    
@@ -199,7 +234,6 @@ function refresh(){
 
 function watchVideo(videoID){
 	var uri="http://www.youtube.com/watch?v="+videoID;
-	alert(uri);
 	try{
 		navigator.app.loadUrl(uri, { openExternal:true });
 	}catch(ex){
@@ -251,7 +285,6 @@ function search(){
 		    'buttons' : {
 		      'OK': {
 			click: function () {
-				alert('test');
 				download($(this), $(this).parent("li").jqmData("videoid"));
 			}
 		      },
