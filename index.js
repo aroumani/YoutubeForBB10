@@ -28,11 +28,15 @@ function dirReady(entry) {
 
 downloadFile = function(atr, url, fname){
 
+    
+    
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
-
+    alert('test');
     $.mobile.showPageLoadingMsg("b", "Starting Download ["+filePath+"]");
+    alert('test2');
+    
     fileTransfer.download(
         url,
         filePath,
