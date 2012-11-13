@@ -151,11 +151,13 @@ function resumeAudio(){
 			playing=false
 			my_media.pause();
 			$("#playPauseButton").html("Play");
+			$("#playPauseButton").button('refresh');
 			$("#songStatus").html("<p>Paused</p>");
 		}else{
 			playing=true;
 			my_media.play();
 			$("#playPauseButton").html("Pause");
+			$("#playPauseButton").button('refresh');
 			$("#songStatus").html("<p>Playing</p>");
 		}
 		
@@ -206,6 +208,18 @@ function playAudioByNum(index){
 	// Get a list of all the entries in the directory
 	directoryReader.readEntries(dirsRead,fail);
 }
+
+function nextSong(){
+	curSong++;
+	playAudioByNum(curSong);
+}
+
+function prevSong(){
+	curSong--;
+	playAudioByNum(curSong);
+}
+
+
 function playAudio(src) {
 	
 		if (songLock){return;}
@@ -220,13 +234,12 @@ function playAudio(src) {
             my_media = new Media(src, function(){
 		if (playing)
 		{
-			curSong++;
-			playAudioByNum(curSong);
+			nextSong();
 		}
-	    }, function(medError){alert(medError.message);});
+	    }, function(medError){});
 	
 	    // Update media position every second
-	    if(mediaTimer){
+	    if(!mediaTimer){
 		mediaTimer = setInterval(function() {
 			// get media position
 			if (my_media){
@@ -249,7 +262,9 @@ function playAudio(src) {
 	    }
             // Play audio
 	    playing=true;
+	    alert('test');
 	    $("#playPauseButton").html("Pause");
+	    $("#playPauseButton").button('refresh');
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
