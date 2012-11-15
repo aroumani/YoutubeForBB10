@@ -143,7 +143,6 @@ function checkForDownload(videoID, el){
 				el.show();
 				info=null;
 			}else{
-				alert('Video Cannot Be Downloaded...');
 			}
 				
 		});
@@ -161,15 +160,11 @@ function resumeAudio(){
 		if (playing){
 			playing=false
 			my_media.pause();
-			$("#playPauseButton").html("Play");
-			$("#playPauseButton").button('refresh');
-			$("#songStatus").html("<p>Paused</p>");
+			$("#playPauseOption").attr("src","play.png");
 		}else{
 			playing=true;
 			my_media.play();
-			$("#playPauseButton").html("Pause");
-			$("#playPauseButton").button('refresh');
-			$("#songStatus").html("<p>Playing</p>");
+			$("#playPauseOption").attr("src","play.png");
 		}
 		
 	  }
@@ -180,8 +175,7 @@ function stopAudio() {
 		playing=false;
 		my_media.stop();
 		$("#songSlider").attr('disabled','true');
-		$('#songSlider').val(0);
-		$("#songStatus").html("<p>Stopped: [No Song Selected]</p>");
+		$("#playPauseOption").attr("src","play.png");
 		my_media.release();
 		my_media=null;
 	  }
@@ -281,8 +275,7 @@ function playAudio(src) {
 	    }
             // Play audio
 	    playing=true;
-	    $("#playPauseButton").html("Pause");
-	    $("#playPauseButton").button('refresh');
+	    $("#playPauseOption").attr("src","play.png");
 	    $("#songSlider").removeAttr('disabled');
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
