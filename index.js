@@ -156,6 +156,8 @@ var my_media = null;
 var mediaTimer = null;
 
 function resumeAudio(){
+	$('#songSlider').val(30);
+	$('#songSlider').slider('refresh');
 	if (my_media){
 		if (playing){
 			playing=false

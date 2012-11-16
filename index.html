@@ -80,7 +80,7 @@
 			
 		</ul>
 	</div><!-- /content -->
-	<div data-role="footer" data-theme="b"> 
+	<div data-role="footer" data-position="fixed" data-theme="b"> 
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
@@ -102,9 +102,8 @@
 	
 	<div data-role="footer" data-theme="b"  data-position="fixed"> 
 	<center>
-	<table width="100%">
+	<table width="100%" align="center">
 	<tr>
-	</tr>
 		<td width="30%" align="center">
 		<table><tr>
 		<td><a href="#" onclick="prevSong();" data-theme=""> <img src="back.png" width="30" height="30"> </a></td>
@@ -114,10 +113,10 @@
 		</td>
 	</tr>
 	<tr>
-		<td align="center">%<input data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="c" /></td>
+		<td align="center">%<input data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" /></td>
 	</tr>
 	<tr>
-	<td colspan="2" width="100%">
+	<td width="100%">
 		<center><span style="white-space:nowrap;" id="songStatus">Stopped: [No Song Selected]<span></center>
 	</td>
 	</tr>
