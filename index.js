@@ -70,9 +70,7 @@ $( document ).bind( "mobileinit", function() {
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
     $.mobile.defaultDialogTransition = 'none';
-    $.mobile.defaultDialogTransition = 'none';
     $.mobile.defaultPageTransition = 'none';
-    $.mobile.defaultPageTransition = "none";
     
     
 });
@@ -97,6 +95,18 @@ function pageLoad(){
 	
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
+		
+		$('#slider').slider({
+		    change: function(event) {
+			if (event.originalEvent) {
+			    //Seek to current value in video
+			    if (my_media){
+				var songVal = $(this).val();
+				my_media.seekTo(songVal/100 * my_media.getDuration());
+			    }
+			}
+		    }
+		});
 	});
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
@@ -165,10 +175,12 @@ function resumeAudio(){
 			playing=false
 			my_media.pause();
 			$("#playPauseOption").attr("src","play.png");
+			$("#songState").html("Stopped: ");
 		}else{
 			playing=true;
 			my_media.play();
 			$("#playPauseOption").attr("src","play.png");
+			$("#songState").html("Playing: ");
 		}
 		
 	  }
@@ -180,6 +192,7 @@ function stopAudio() {
 		my_media.stop();
 		$("#songSlider").attr('disabled','true');
 		$("#playPauseOption").attr("src","play.png");
+		$("#songState").html("Stopped: ");
 		my_media.release();
 		my_media=null;
 	  }
@@ -199,7 +212,7 @@ function playAudioByNum(index){
 	    for (i=0; i<entries.length; i++) {
 		if (i==index){
 			curSong=index;
-			playAudio(entries[i].fullPath);
+			playAudio(entries[i].fullPath, entries[i].name);
 			return;
 		}
 	    }
@@ -228,12 +241,6 @@ function prevSong(){
 
 function setupSlider(){
 	if (my_media){
-		$("#songSlider").live("change", function() {
-			var songVal = $(this).val();
-			my_media.seekTo(songVal/100 * my_media.getDuration());
-		});
-		
-		
 		my_media.getCurrentPosition(
 			// success callback
 			function(position) {
@@ -241,7 +248,6 @@ function setupSlider(){
 					var posInt = (position/my_media.getDuration() * 100);
 					
 					$('#songSlider').val(posInt);
-					alert(posInt);
 					$('#songSlider').slider('refresh');
 				}
 			},
@@ -252,7 +258,7 @@ function setupSlider(){
 		);
 	}
 }
-function playAudio(src) {
+function playAudio(src, name) {
 	
 		if (songLock){return;}
 		else{
@@ -266,7 +272,6 @@ function playAudio(src) {
             my_media = new Media(src, function(){
 		if (playing)
 		{
-			alert('next song');
 			nextSong();
 		}
 	    }, function(medError){});
@@ -274,7 +279,6 @@ function playAudio(src) {
 	    
 	    // Update media position every second
 	    if(!mediaTimer){
-		alert('setting timer');
 		mediaTimer = setInterval(function() {
 			// get media position
 			setupSlider();
@@ -288,13 +292,12 @@ function playAudio(src) {
 	    }
             // Play audio
 	    playing=true;
-	    alert('playing');
 	    $("#playPauseOption").attr("src","pause.png");
-	    alert('pause');
 	    $("#songSlider").removeAttr('disabled');
-	    alert('playing now..');
             my_media.play();
-	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
+	    
+	    $("#songState").html("Playing: ");
+	    $("#songStatus").html("<p>["+name+"]</p>");
 }
 
 
