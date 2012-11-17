@@ -69,8 +69,8 @@ $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
-    $.mobile.defaultDialogTransition = 'none';
-    $.mobile.defaultPageTransition = 'none';
+    //$.mobile.defaultDialogTransition = 'none';
+    //$.mobile.defaultPageTransition = 'none';
     
     
 });
@@ -238,12 +238,24 @@ function playAudioByNum(index){
 	directoryReader.readEntries(dirsRead,fail);
 }
 
+var lock1=false;
+var lock2=false;
 function nextSong(){
+	if (lock1){return;}
+	else{
+		lock1=true;
+		var t=setTimeout(function(){lock1=false;},350);
+	}
 	curSong++;
 	playAudioByNum(curSong);
 }
 
 function prevSong(){
+	if (lock2){return;}
+	else{
+		lock2=true;
+		var t=setTimeout(function(){lock2=false;},350);
+	}
 	curSong--;
 	playAudioByNum(curSong);
 }
@@ -258,6 +270,7 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
+					alert("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0"));
 					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0") + " of " +
 					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed().pad(2, "0")+"]");
 				}
