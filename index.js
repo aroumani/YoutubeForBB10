@@ -274,8 +274,8 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					$('#songTime').html("["+Math.floor(position / 60) + ":" + zeroOut((position % 60).toFixed(0) + " of " +
-					Math.floor(my_media.getDuration() / 60) + ":" + zeroOut(((my_media.getDuration() % 60).toFixed(0))+"]");
+					$('#songTime').html("["+Math.floor(position / 60) + ":" + zeroOut((position % 60).toFixed(0) + " of " + 
+					Math.floor(my_media.getDuration() / 60) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]"));
 				}
 			},
 			// error callback
