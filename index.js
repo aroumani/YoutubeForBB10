@@ -96,7 +96,7 @@ function pageLoad(){
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
 		
-		$('#slider').slider({
+		/*$('#slider').slider({
 		    /*change: function(event) {
 			if (event.originalEvent === undefined){
 			}else{
@@ -107,8 +107,8 @@ function pageLoad(){
 			    }
 			}
 			
-		    }*/, 
-		});
+		    }, 
+		});*/
 		
 		$('#slider').bind('vmouseup', function() {
 		    if (my_media){
