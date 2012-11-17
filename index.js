@@ -98,7 +98,7 @@ function pageLoad(){
 		
 		$('#slider').slider({
 		    change: function(event) {
-			if (event.originalEvent) {
+			if (!event.originalEvent) {
 			    //Seek to current value in video
 			    if (my_media){
 				var songVal = $(this).val();
@@ -170,8 +170,6 @@ var my_media = null;
 var mediaTimer = null;
 
 function resumeAudio(){
-	
-	$('#songSlider').slider('enable');
 	if (my_media){
 		if (playing){
 			playing=false
@@ -181,7 +179,7 @@ function resumeAudio(){
 		}else{
 			playing=true;
 			my_media.play();
-			$("#playPauseOption").attr("src","play.png");
+			$("#playPauseOption").attr("src","pause.png");
 			$("#songState").html("Playing: ");
 		}
 		
@@ -192,7 +190,7 @@ function stopAudio() {
 	if (my_media){
 		playing=false;
 		my_media.stop();
-		$("#songSlider").attr('disabled','true');
+		$('#songSlider').slider('disable');
 		$("#playPauseOption").attr("src","play.png");
 		$("#songState").html("Stopped: ");
 		my_media.release();
@@ -218,9 +216,7 @@ function playAudioByNum(index){
 	    
 	    for (i=0; i<entries.length; i++) {
 		if (i==index){
-			alert(curSong);
 			curSong=index;
-			alert(curSong);
 			playAudio(entries[i].fullPath, entries[i].name, playing);
 			return;
 		}
@@ -270,7 +266,7 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					alert("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0"));
+					alert("["+Math.floor(position / 60) + ":" + (position % 60).toFixed(0));
 					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0") + " of " +
 					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed().pad(2, "0")+"]");
 				}
@@ -317,8 +313,7 @@ function playAudio(src, name, startPlay) {
             // Play audio
 	    playing=true;
 	    $("#playPauseOption").attr("src","pause.png");
-	    $("#songSlider").removeAttr('disabled');
-	    $("#songSlider").slider('refresh');
+	    $('#songSlider').slider('enable');
             my_media.play();
 	    
 	    $("#songState").html("Playing: ");
