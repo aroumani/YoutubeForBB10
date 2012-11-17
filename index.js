@@ -156,8 +156,6 @@ var my_media = null;
 var mediaTimer = null;
 
 function resumeAudio(){
-	$('#songSlider').val(30);
-	$('#songSlider').slider('refresh');
 	if (my_media){
 		if (playing){
 			playing=false
@@ -201,9 +199,6 @@ function playAudioByNum(index){
 			return;
 		}
 	    }
-	    
-	    $("#musicList").html(html);
-	    $("#musicList").listview("refresh"); 
 	}
 	
 	function fail(error) {
@@ -227,7 +222,32 @@ function prevSong(){
 	playAudioByNum(curSong);
 }
 
-
+function setupSlider(){
+	if (my_media){
+		$("#songSlider").live("change", function() {
+			var songVal = $(this).val();
+			my_media.seekTo(songVal/100 * my_media.getDuration());
+		});
+		
+		
+		my_media.getCurrentPosition(
+			// success callback
+			function(position) {
+				if (position > -1) {
+					var posInt = (position/my_media.getDuration() * 100);
+					
+					$('#songSlider').val(posInt);
+					alert(posInt);
+					$('#songSlider').slider('refresh');
+				}
+			},
+			// error callback
+			function(e) {
+				console.log("Error getting pos=" + e);
+			}
+		);
+	}
+}
 function playAudio(src) {
 	
 		if (songLock){return;}
@@ -236,49 +256,39 @@ function playAudio(src) {
 			var t=setTimeout(function(){songLock=false;},1000);
 		}
             // Create Media object from src
-	    playing=true;
 	    stopAudio();
+	    playing=true;
 	    
             my_media = new Media(src, function(){
 		if (playing)
 		{
+			alert('next song');
 			nextSong();
 		}
 	    }, function(medError){});
 	
+	    
 	    // Update media position every second
 	    if(!mediaTimer){
+		alert('setting timer');
 		mediaTimer = setInterval(function() {
 			// get media position
-			if (my_media){
-				
-				$("#songSlider").live("change", function() {
-					var songVal = $(this).val();
-					my_media.seekTo(songVal/100 * my_media.getDuration());
-				});
-				
-				
-				my_media.getCurrentPosition(
-					// success callback
-					function(position) {
-						if (position > -1) {
-							var posInt = (position/my_media.getDuration() * 100);
-							$('#songSlider').val(posInt);
-							$('#songSlider').slider('refresh');
-						}
-					},
-					// error callback
-					function(e) {
-						console.log("Error getting pos=" + e);
-					}
-				);
-			}
+			setupSlider();
+		}, 1000);
+	    }else{
+		clearInterval(mediaTimer);
+		mediaTimer = setInterval(function() {
+			// get media position
+			setupSlider();
 		}, 1000);
 	    }
             // Play audio
 	    playing=true;
-	    $("#playPauseOption").attr("src","play.png");
+	    alert('playing');
+	    $("#playPauseOption").attr("src","pause.png");
+	    alert('pause');
 	    $("#songSlider").removeAttr('disabled');
+	    alert('playing now..');
             my_media.play();
 	    $("#songStatus").html("<p>Playing: ["+src+"]</p>");
 }
