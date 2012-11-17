@@ -100,7 +100,6 @@ function pageLoad(){
 		    change: function(event) {
 			if (event.originalEvent === undefined){
 			}else{
-				alert('mee!');
 			    //Seek to current value in video
 			    if (my_media){
 				var songVal = $(this).val();
@@ -201,7 +200,7 @@ function stopAudio() {
 		
 		$('#songSlider').val(0);
 		$('#songSlider').slider('refresh');
-		$('#songTime').html("");
+		$('#songTime').html("[0:00 of 0:00]");
 					
 	  }
 }
@@ -259,6 +258,12 @@ function prevSong(){
 	playAudioByNum(curSong);
 }
 
+function zeroOut(str){
+	if (str.length==1){
+		return "0" + str;
+	}
+	return str;
+}
 function setupSlider(){
 	if (my_media){
 		my_media.getCurrentPosition(
@@ -269,8 +274,8 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed(0) + " of " +
-					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed(0)+"]");
+					$('#songTime').html("["+Math.floor(position / 60) + ":" + zeroOut((position % 60).toFixed(0) + " of " +
+					Math.floor(my_media.getDuration() / 60) + ":" + zeroOut(((my_media.getDuration() % 60).toFixed(0))+"]");
 				}
 			},
 			// error callback
