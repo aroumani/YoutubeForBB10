@@ -69,6 +69,10 @@ $( document ).bind( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
     $.mobile.allowCrossDomainPages = true;
     $.mobile.phonegapNavigationEnabled = true;
+    $.mobile.defaultDialogTransition = 'none';
+    $.mobile.defaultDialogTransition = 'none';
+    $.mobile.defaultPageTransition = 'none';
+    $.mobile.defaultPageTransition = "none";
     
     
 });
