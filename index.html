@@ -104,12 +104,12 @@
 	<center>
 	<table width="100%" align="center">
 	<tr>
-		<td width="40%" align="center">
+		<td align="center">
 		<table><tr>
 		<td><a href="#" onclick="prevSong();" data-theme=""> <img src="back.png" width="45" height="45"> </a></td>
 		<td><a style="margin-left:10px; margin-right:10px;" href="#" onclick="resumeAudio();" data-theme=""> <img id="playPauseOption" src="play.png" width="45" height="45"> </a></td></td>
 		<td><a href="#" onclick="nextSong();" data-theme=""> <img src="forward.png" width="45" height="45"> </a></td>
-		<td><span style="margin-left:10px;" id="songTime">[0:00 of 0:00]</span></td>
+		<td><span style="margin-left:10px;hite-space:nowrap;" id="songTime">[00:00 of 00:00]</span></td>
 		</tr></table>
 		</td>
 	</tr>
@@ -118,7 +118,10 @@
 	</tr>
 	<tr>
 	<td width="100%">
-		<center><span id="songState">Stopped: </span> <span style="white-space:nowrap;" id="songStatus">[No Song Selected]<span></center>
+		<center><table>
+		
+		<tr><td><span id="songState">Stopped: </span></td><td><p><span style="white-space:nowrap;overflow:hidden;" id="songStatus">[No Song Selected]<span></td>
+		</tr></table></center>
 	</td>
 	</tr>
 	</table>
@@ -128,7 +131,7 @@
 
 <div data-role="page" id="about">
 
-	<div data-role="header" data-position="fixed">
+	<div data-role="header" data-position="fixed" data-theme="b">
 		<h1>About</h1>
 		<a href="#search" data-icon="search" data-theme="e" class="ui-btn-left">Search</a>
 	</div><!-- /header -->
@@ -139,11 +142,11 @@
 		<p>This application makes no garentees that videos will be able to be converted, as changes can occur with APIs that we are using at any time</p>
 		<p>We will do our best to provide an updated version at the earliest possible time in this event.</p>
 		<a href="mailto:support@workplaymobile.com" style="background-color:white;color:darkred;font: 100%/1.4 Calibri,Verdana, Arial, Helvetica, sans-serif;font-size:18px;height:50%;width:70%">Click Here To Report A Problem</a><br/><br/>
-		<img src="ccLogoSmall.png"/>
+		<center><img width="136px" height="75px" src="ccLogoSmall.png"/></center>
 	</div><!-- /content -->
 	
 	
-	<div data-role="footer" data-position="fixed"> 
+	<div data-role="footer" data-position="fixed" data-theme="b"> 
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div>

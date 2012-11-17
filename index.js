@@ -97,7 +97,7 @@ function pageLoad(){
 		refresh();
 		
 		$('#slider').slider({
-		    change: function(event) {
+		    /*change: function(event) {
 			if (event.originalEvent === undefined){
 			}else{
 			    //Seek to current value in video
@@ -107,7 +107,14 @@ function pageLoad(){
 			    }
 			}
 			
-		    }
+		    }*/, 
+		});
+		
+		$('#slider').bind('vmouseup', function() {
+		    if (my_media){
+				var songVal = $(this).val();
+				my_media.seekTo(songVal/100 * my_media.getDuration());
+			}
 		});
 	});
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
@@ -200,11 +207,12 @@ function stopAudio() {
 		
 		$('#songSlider').val(0);
 		$('#songSlider').slider('refresh');
-		$('#songTime').html("[0:00 of 0:00]");
+		$('#songTime').html("[00:00 of 00:00]");
 					
 	  }
 }
 
+var firstTime=true;
 function playAudioByNum(index){
 	function dirsRead(entries) {
 	    var html="";
@@ -219,7 +227,10 @@ function playAudioByNum(index){
 	    for (i=0; i<entries.length; i++) {
 		if (i==index){
 			curSong=index;
-			playAudio(entries[i].fullPath, entries[i].name, playing);
+			playAudio(entries[i].fullPath, entries[i].name, i, firstTime);
+			if (firstTime){
+				firstTime=false;
+			}
 			return;
 		}
 	    }
@@ -259,6 +270,9 @@ function prevSong(){
 }
 
 function zeroOut(str){
+
+	alert(str.length)
+	alert(str);
 	if (str.length==1){
 		return "0" + str;
 	}
@@ -274,8 +288,8 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					$('#songTime').html("["+Math.floor(position / 60) + ":" + zeroOut((position % 60).toFixed(0) + " of " + 
-					Math.floor(my_media.getDuration() / 60) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]"));
+					$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0) + " of " + 
+					zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]"));
 				}
 			},
 			// error callback
@@ -285,7 +299,7 @@ function setupSlider(){
 		);
 	}
 }
-function playAudio(src, name, startPlay) {
+function playAudio(src, name, num, startPlay) {
 	
 		if (songLock){return;}
 		else{
@@ -324,7 +338,7 @@ function playAudio(src, name, startPlay) {
             my_media.play();
 	    
 	    $("#songState").html("Playing: ");
-	    $("#songStatus").html("<p>["+name+"]</p>");
+	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
 	    
 	    if(!startPlay){
 		resumeAudio();
