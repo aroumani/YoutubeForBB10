@@ -98,13 +98,16 @@ function pageLoad(){
 		
 		$('#slider').slider({
 		    change: function(event) {
-			if (!event.originalEvent) {
+			if (event.originalEvent === undefined){
+			}else{
+				alert('mee!');
 			    //Seek to current value in video
 			    if (my_media){
 				var songVal = $(this).val();
 				my_media.seekTo(songVal/100 * my_media.getDuration());
 			    }
 			}
+			
 		    }
 		});
 	});
@@ -266,9 +269,8 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					alert("["+Math.floor(position / 60) + ":" + (position % 60).toFixed(0));
-					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0") + " of " +
-					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed().pad(2, "0")+"]");
+					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed(0) + " of " +
+					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed(0)+"]");
 				}
 			},
 			// error callback
