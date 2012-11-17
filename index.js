@@ -170,6 +170,8 @@ var my_media = null;
 var mediaTimer = null;
 
 function resumeAudio(){
+	
+	$('#songSlider').slider('enable');
 	if (my_media){
 		if (playing){
 			playing=false
@@ -195,6 +197,11 @@ function stopAudio() {
 		$("#songState").html("Stopped: ");
 		my_media.release();
 		my_media=null;
+		
+		$('#songSlider').val(0);
+		$('#songSlider').slider('refresh');
+		$('#songTime').html("");
+					
 	  }
 }
 
@@ -211,8 +218,10 @@ function playAudioByNum(index){
 	    
 	    for (i=0; i<entries.length; i++) {
 		if (i==index){
+			alert(curSong);
 			curSong=index;
-			playAudio(entries[i].fullPath, entries[i].name);
+			alert(curSong);
+			playAudio(entries[i].fullPath, entries[i].name, playing);
 			return;
 		}
 	    }
@@ -246,9 +255,11 @@ function setupSlider(){
 			function(position) {
 				if (position > -1) {
 					var posInt = (position/my_media.getDuration() * 100);
-					
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
+					
+					$('#songTime').html("["+Math.floor(position / 60) + ":" + (position % 60).toFixed().pad(2, "0") + " of " +
+					Math.floor(my_media.getDuration() / 60) + ":" + (my_media.getDuration() % 60).toFixed().pad(2, "0")+"]");
 				}
 			},
 			// error callback
@@ -258,7 +269,7 @@ function setupSlider(){
 		);
 	}
 }
-function playAudio(src, name) {
+function playAudio(src, name, startPlay) {
 	
 		if (songLock){return;}
 		else{
@@ -294,10 +305,15 @@ function playAudio(src, name) {
 	    playing=true;
 	    $("#playPauseOption").attr("src","pause.png");
 	    $("#songSlider").removeAttr('disabled');
+	    $("#songSlider").slider('refresh');
             my_media.play();
 	    
 	    $("#songState").html("Playing: ");
 	    $("#songStatus").html("<p>["+name+"]</p>");
+	    
+	    if(!startPlay){
+		resumeAudio();
+	    }
 }
 
 
@@ -307,7 +323,7 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h2>'+entries[i].name+'</h2></a>'+
+		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+
 		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
 	    }
