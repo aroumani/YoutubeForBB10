@@ -214,6 +214,7 @@ function stopAudio() {
 
 var firstTime=true;
 function playAudioByNum(index){
+	
 	function dirsRead(entries) {
 	    var html="";
 	    var i;
@@ -355,6 +356,7 @@ function refresh(){
 		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+
 		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
+			alert('test');
 	    }
 	    
 	    $("#musicList").html(html);
