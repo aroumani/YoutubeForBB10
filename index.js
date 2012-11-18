@@ -271,9 +271,6 @@ function prevSong(){
 }
 
 function zeroOut(str){
-
-	alert(str.length)
-	alert(str);
 	if (str.length==1){
 		return "0" + str;
 	}
@@ -289,8 +286,8 @@ function setupSlider(){
 					$('#songSlider').val(posInt);
 					$('#songSlider').slider('refresh');
 					
-					$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0) + " of " + 
-					zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]"));
+					$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0)) + " of " + 
+					zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]");
 				}
 			},
 			// error callback
@@ -356,7 +353,6 @@ function refresh(){
 		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+
 		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
 				'</li>');
-			alert('test');
 	    }
 	    
 	    $("#musicList").html(html);
