@@ -107,15 +107,29 @@ function pageLoad(){
 			    }
 			}
 			
-		    }, 
+		    }, slide: function(e) {
+			if(e.originalEvent==undefined) {
+			
+			}else{
+				//Seek to current value in video
+			    
+			}
+		    }
 		});*/
 		
-		$('#slider').bind('vmouseup', function() {
+		$( "#slider" ).bind("slidestop", function(event, ui) {
+			if (my_media){
+				var songVal = $(this).val();
+				my_media.seekTo(songVal/100 * my_media.getDuration());
+			    }
+		});
+		
+		/*$('#slider').bind('vmouseup', function() {
 		    if (my_media){
 				var songVal = $(this).val();
 				my_media.seekTo(songVal/100 * my_media.getDuration());
 			}
-		});
+		});*/
 	});
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
@@ -178,18 +192,25 @@ function checkForDownload(videoID, el){
 var my_media = null;
 var mediaTimer = null;
 
+function play(){
+	my_media.play();
+	$("#playPauseOption").attr("src","pause.png");
+	$("#songState").html("Playing: ");
+}
+
+function pause(){
+	my_media.pause();
+	$("#playPauseOption").attr("src","play.png");
+	$("#songState").html("Stopped: ");
+}
 function resumeAudio(){
 	if (my_media){
 		if (playing){
 			playing=false
-			my_media.pause();
-			$("#playPauseOption").attr("src","play.png");
-			$("#songState").html("Stopped: ");
+			pause();
 		}else{
 			playing=true;
-			my_media.play();
-			$("#playPauseOption").attr("src","pause.png");
-			$("#songState").html("Playing: ");
+			play();
 		}
 		
 	  }
@@ -207,7 +228,7 @@ function stopAudio() {
 		
 		$('#songSlider').val(0);
 		$('#songSlider').slider('refresh');
-		$('#songTime').html("[00:00 of 00:00]");
+		$('#songTime').html("[0:00 of 00:00]");
 					
 	  }
 }
@@ -336,10 +357,15 @@ function playAudio(src, name, num, startPlay) {
             my_media.play();
 	    
 	    $("#songState").html("Playing: ");
+	    if (name >15){
+		name = name.substring(0,15)+"...";
+	    }
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
-	    
 	    if(!startPlay){
-		resumeAudio();
+		pause();
+		//resumeAudio();
+	    }else{
+		play();
 	    }
 }
 
