@@ -357,16 +357,10 @@ function playAudio(src, name, num, startPlay) {
             my_media.play();
 	    
 	    $("#songState").html("Playing: ");
-	    if (name >15){
+	    if (name.length >15){
 		name = name.substring(0,15)+"...";
 	    }
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
-	    if(!startPlay){
-		pause();
-		//resumeAudio();
-	    }else{
-		play();
-	    }
 }
 
 
