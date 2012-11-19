@@ -1,9 +1,11 @@
 window.appRootDirName = "download_mp";
 document.addEventListener("deviceready", onDeviceReady, false);
 var lock=false;
+var lock5=false;
 var songLock=false;
 var curSong=null;
 var playing=false;
+var autoMove=false;
 function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
@@ -96,40 +98,12 @@ function pageLoad(){
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
 		
-		/*$('#slider').slider({
-		    /*change: function(event) {
-			if (event.originalEvent === undefined){
-			}else{
-			    //Seek to current value in video
-			    if (my_media){
-				var songVal = $(this).val();
-				my_media.seekTo(songVal/100 * my_media.getDuration());
-			    }
-			}
-			
-		    }, slide: function(e) {
-			if(e.originalEvent==undefined) {
-			
-			}else{
-				//Seek to current value in video
-			    
-			}
-		    }
-		});*/
-		
-		$( "#slider" ).bind("slidestop", function(event, ui) {
-			if (my_media){
-				var songVal = $(this).val();
-				my_media.seekTo(songVal/100 * my_media.getDuration());
-			    }
+		$( "#slider" ).on( 'slidestart', function( event ) { autoMove=true; });
+		$( "#slider" ).on( 'slidestop', function( event ) {  
+			var songVal = $(this).val();
+			my_media.seekTo(songVal/100 * my_media.getDuration());
+			autoMove=false; 
 		});
-		
-		/*$('#slider').bind('vmouseup', function() {
-		    if (my_media){
-				var songVal = $(this).val();
-				my_media.seekTo(songVal/100 * my_media.getDuration());
-			}
-		});*/
 	});
 	//player.loadVideoById(videoId:String, startSeconds:Number, suggestedQuality:String)
 	//player.stopVideo()
@@ -302,13 +276,17 @@ function setupSlider(){
 		my_media.getCurrentPosition(
 			// success callback
 			function(position) {
-				if (position > -1) {
-					var posInt = (position/my_media.getDuration() * 100);
-					$('#songSlider').val(posInt);
-					$('#songSlider').slider('refresh');
-					
-					$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0)) + " of " + 
-					zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]");
+				if (position > -1)
+				{
+					if (my_media && my_media.getDuration() != 0){
+						var posInt = (position/my_media.getDuration() * 100);
+						if (!autoMove){
+							$('#songSlider').val(posInt);
+							$('#songSlider').slider('refresh');
+						}
+						$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0)) + " of " + 
+						zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]");
+					}
 				}
 			},
 			// error callback
@@ -363,6 +341,23 @@ function playAudio(src, name, num, startPlay) {
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
 }
 
+function deleteSong(path){
+	function success(file) {
+		try{
+			file.remove();
+			refresh();
+		}catch(ex){
+			alert('Could not delete file... ' + ex);
+		}	
+	}
+
+	function fail(error) {
+	    alert("Failed to retrieve file: " + error.code);
+	}
+
+	// Retrieve an existing file, or create it if it does not exist
+	window.appRootDir.getFile(path, {create: false, exclusive: false}, success, fail);
+}
 
 function refresh(){
 
@@ -370,13 +365,41 @@ function refresh(){
 	    var html="";
 	    var i;
 	    for (i=0; i<entries.length; i++) {
-		html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+
-		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudio(\''+entries[i].fullPath+'\');" ><h2>'+entries[i].name+'</h2></a>'+
-				'</li>');
+		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+'</li>');
+		
+		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a onclick="playAudioByNum('+i+');" href="#"><h3>('+i+') ' + entries[i].name+'</h3></a>'+
+			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
+			 '</li>');
 	    }
 	    
 	    $("#musicList").html(html);
 	    $("#musicList").listview("refresh"); 
+	    
+	    $("#musicList a.ui-li-link-alt").live("click", function(e){
+		if (lock5){return;}
+		else{
+			lock5=true;
+			var t=setTimeout(function(){lock5=false;},1000);
+		}
+		$(this).simpledialog({
+		    'mode' : 'bool',
+		    'prompt' : 'Delete?',
+		    'useModal': true,
+		    'buttons' : {
+		      'OK': {
+			click: function () {
+				deleteSong($(this).parent("li").jqmData("videoid"));
+			}
+		      },
+		      'Cancel': {
+			click: function () {
+			},
+			icon: "delete",
+			theme: "c"
+		      }
+		    }
+		  });
+	  });
 	}
 	
 	function fail(error) {

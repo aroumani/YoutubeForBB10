@@ -62,9 +62,6 @@
 </div>
 	
 <div data-role="page" id="search">
-
-	
-
 	<div data-role="header" data-position="fixed" data-theme="b">
 		<a href="#music" data-icon="grid" data-theme="e" class="ui-btn-left">Downloads</a>
 		<h1>MP3Leech</h1>
@@ -109,17 +106,18 @@
 		<td><a href="#" onclick="prevSong();" data-theme=""> <img src="back.png" width="45" height="45"> </a></td>
 		<td><a style="margin-left:10px; margin-right:10px;" href="#" onclick="resumeAudio();" data-theme=""> <img id="playPauseOption" src="play.png" width="45" height="45"> </a></td></td>
 		<td><a href="#" onclick="nextSong();" data-theme=""> <img src="forward.png" width="45" height="45"> </a></td>
-		<td><span style="margin-left:10px;hite-space:nowrap;" id="songTime">[0:00 of 00:00]</span></td>
 		</tr></table>
 		</td>
 	</tr>
 	<tr>
-		<td align="center">%<input data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" /></td>
+		<td align="center"><span style="white-space:nowrap;" id="songTime">[0:00 of 00:00]</span></td>
+	</tr>
+	<tr>
+		<td align="center"><input style="display:none;" data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" /></td>
 	</tr>
 	<tr>
 	<td width="100%">
 		<center><table>
-		
 		<tr><td><span id="songState">Stopped: </span></td><td><p><span style="white-space:nowrap;overflow:hidden;" id="songStatus">[No Song Selected]<span></td>
 		</tr></table></center>
 	</td>
