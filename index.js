@@ -102,8 +102,7 @@ function pageLoad(){
 		$( "#songSlider" ).on( 'slidestop', function( event ) { 
 			var songVal = $(this).val();
 			var seekPos= Math.floor(songVal/100.0 * my_media.getDuration());
-			alert(seekPos);
-			my_media.seekTo(seekPos);
+			my_media.seekTo(seekPos*1000);
 			autoMove=false; 
 		});
 	});
@@ -419,6 +418,7 @@ function refresh(){
 	// Get a list of all the entries in the directory
 	directoryReader.readEntries(dirsRead,fail);
 	
+	$("#fileLoc").html(window.appRootDir.fullPath);
 	
 }
 

@@ -84,11 +84,18 @@
 
 <div data-role="page" id="music">
 
+	<div data-role="popup" id="positionWindow">
+		<p>This page simply lets you play songs you have downloaded</p>
+		<p>Song you have downloaded have been stored under: <span id="fileLoc">Unknown</span><p>
+		<hr/>
+		<p>If you want to use this player, simply select a song and it will start playing. You can also seek, go to next song, and delete songs from your file system.</p>
+	</div>
+	
 	<div data-role="header" data-theme="b" data-position="fixed" >
 		<a href="#search" data-theme="e" class="ui-btn-right">Back</a>
 		<h1>Songs</h1>
-		<a href="#" data-icon="refresh" onclick="refresh();" data-theme="e" class="ui-btn-left">Refresh</a>
-		
+		<a href="#positionWindow" data-role="button" data-inline="true" data-rel="popup" data-position-to="window" data-icon="info" data-theme="e" class="ui-btn-left">Info</a>
+		<center><table><tr><td><span id="songState">Stopped: </span></td><td><p><span style="white-space:nowrap;overflow:hidden;" id="songStatus">[Select A Song]<span></td></tr></table></center>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -102,17 +109,20 @@
 	<center>
 	<table width="100%" align="center">
 
-		<td align="center"><span style="white-space:nowrap;" id="songTime">[0:00 of 00:00]</span></td>
+		<td align="center"><span style="white-space:nowrap;" id="songTime">[0:00 of 00:00]</span>
+		
+		</td>
 	</tr>
 	<tr>
-		<td align="center"><input style="display:none;" data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" /></td>
+		<td align="center"><input style="display:none;" data-mini="true" type="range" name="slider-3" disabled="true" id="songSlider" value="0" min="0" max="100" data-theme="a" data-track-theme="b" />
+		</td>
 	</tr>
 	<tr>
 	<td width="100%">
 		<center><table>
-		<tr><td><span id="songState">Stopped: </span></td><td><p><span style="white-space:nowrap;overflow:hidden;" id="songStatus">[No Song Selected]<span></td>
-		<td><a style="margin-left:10px; margin-right:10px;" href="#" onclick="resumeAudio();" data-theme=""> <img id="playPauseOption" src="play.png" width="45" height="45"> </a></td></td>
-		<td><a href="#" onclick="nextSong();" data-theme=""> <img src="forward.png" width="45" height="45"> </a></td>
+		<tr>
+		<td><a style="margin-left:10px; margin-right:10px;" href="#" onclick="resumeAudio();" data-theme=""> <img id="playPauseOption" src="play.png" width="45" height="45"></a>
+		<a href="#" onclick="nextSong();" data-theme=""> <img src="forward.png" width="45" height="45"></a></td>
 		</tr></table></center>
 	</td>
 	</tr>
