@@ -355,7 +355,7 @@ function deleteSong(path){
 	    alert("Failed to retrieve file: " + error.code);
 	}
 
-	alert("Trying to delete: " + path;
+	alert("Trying to delete: " + path);
 	// Retrieve an existing file, or create it if it does not exist
 	window.appRootDir.getFile(path, {create: false, exclusive: false}, success, fail);
 }
