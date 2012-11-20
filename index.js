@@ -370,6 +370,10 @@ function refresh(){
 		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a onclick="playAudioByNum('+i+');" href="#"><h3>('+i+') ' + entries[i].name+'</h3></a>'+
 			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
 			 '</li>');
+			 
+		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a href="' +entries[i].fullPath'"><h3>('+i+') ' + entries[i].fullPath+'</h3></a>'+
+			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
+			 '</li>');
 	    }
 	    
 	    $("#musicList").html(html);
