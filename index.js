@@ -98,9 +98,8 @@ function pageLoad(){
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
 		
-		$( "#slider" ).on( 'slidestart', function( event ) { autoMove=true; });
-		$( "#slider" ).on( 'slidestop', function( event ) {  
-			alert('sldie stop!');
+		$( "#songSlider" ).on( 'slidestart', function( event ) { autoMove=true; });
+		$( "#songSlider" ).on( 'slidestop', function( event ) {  
 			var songVal = $(this).val();
 			my_media.seekTo(songVal/100 * my_media.getDuration());
 			autoMove=false; 
@@ -356,6 +355,7 @@ function deleteSong(path){
 	    alert("Failed to retrieve file: " + error.code);
 	}
 
+	alert("Trying to delete: " + path;
 	// Retrieve an existing file, or create it if it does not exist
 	window.appRootDir.getFile(path, {create: false, exclusive: false}, success, fail);
 }
@@ -368,7 +368,7 @@ function refresh(){
 	    for (i=0; i<entries.length; i++) {
 		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+'</li>');
 		
-		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a onclick="playAudioByNum('+i+');" href="#"><h3>('+i+') ' + entries[i].name+'</h3></a>'+
+		html += ('<li data-icon="minus" data-videoid="'+entries[i].name+'" ><a onclick="playAudioByNum('+i+');" href="#"><h3>('+i+') ' + entries[i].name+'</h3></a>'+
 			 '<a href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
 			 '</li>');
 			 
