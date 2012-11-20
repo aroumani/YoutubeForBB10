@@ -301,7 +301,7 @@ function playAudio(src, name, num, startPlay) {
 		if (songLock){return;}
 		else{
 			songLock=true;
-			var t=setTimeout(function(){songLock=false;},1000);
+			var t=setTimeout(function(){songLock=false;},300);
 		}
             // Create Media object from src
 	    stopAudio();
@@ -368,12 +368,12 @@ function refresh(){
 		//html += ('<li data-icon="arrow-r" data-videoid="'+entries[i].fullPath+'" ><a href="#" onclick="playAudioByNum('+i+');" ><h3>('+i+') ' + entries[i].name+'</h3></a>'+'</li>');
 		
 		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a onclick="playAudioByNum('+i+');" href="#"><h3>('+i+') ' + entries[i].name+'</h3></a>'+
-			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
+			 '<a href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
 			 '</li>');
 			 
-		html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a href="' +entries[i].fullPath+'"><h3>('+i+') ' + entries[i].fullPath+'</h3></a>'+
+		/*html += ('<li data-icon="minus" data-videoid="'+entries[i].fullPath+'" ><a href="' +entries[i].fullPath+'"><h3>('+i+') ' + entries[i].fullPath+'</h3></a>'+
 			 '<a style="display:none" class="dlLink" href="#" data-theme="e" data-role="button" data-rel="dialog" data-transition="pop">Delete</a>'+
-			 '</li>');
+			 '</li>');*/
 	    }
 	    
 	    $("#musicList").html(html);
