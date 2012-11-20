@@ -99,9 +99,11 @@ function pageLoad(){
 		refresh();
 		
 		$( "#songSlider" ).on( 'slidestart', function( event ) { autoMove=true; });
-		$( "#songSlider" ).on( 'slidestop', function( event ) {  
+		$( "#songSlider" ).on( 'slidestop', function( event ) { 
 			var songVal = $(this).val();
-			my_media.seekTo(songVal/100 * my_media.getDuration());
+			alert(songVal);
+			alert(event.target.value);
+			my_media.seekTo(songVal/100.0 * my_media.getDuration());
 			autoMove=false; 
 		});
 	});
