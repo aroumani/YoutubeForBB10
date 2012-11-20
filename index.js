@@ -96,9 +96,10 @@ function pageLoad(){
 	
 	
 	
-	
-	$('#positionWindow').live( 'pageshow',function(event, ui){
+	$( "#positionWindow" ).bind({
+	   popupafteropen: function(event, ui){
 		$("#fileLoc").html(window.appRootDir.fullPath);
+	   }
 	});
 	
 	$('#music').live( 'pageshow',function(event, ui){
@@ -312,7 +313,10 @@ function playAudio(src, name, num, startPlay) {
 		}
             // Create Media object from src
 	    stopAudio();
-	    playing=true;
+	    
+	    setTimeout(function(){
+	    
+		playing=true;
 	    
             my_media = new Media(src, function(){
 		if (playing)
@@ -346,6 +350,9 @@ function playAudio(src, name, num, startPlay) {
 		name = name.substring(0,15)+"...";
 	    }
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
+	    
+	    }, 1000);
+	    
 }
 
 function deleteSong(path){
