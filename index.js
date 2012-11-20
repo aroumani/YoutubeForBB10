@@ -210,7 +210,7 @@ function stopAudio() {
 		
 		$('#songSlider').val(0);
 		$('#songSlider').slider('refresh');
-		$('#songTime').html("[0:00 of 00:00]");
+		$('#songTime').html("0:00 of 00:00");
 					
 	  }
 }
@@ -292,8 +292,8 @@ function setupSlider(){
 							$('#songSlider').val(posInt);
 							$('#songSlider').slider('refresh');
 						}
-						$('#songTime').html("["+zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0)) + " of " + 
-						zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0))+"]");
+						$('#songTime').html(zeroOut(Math.floor(position / 60)) + ":" + zeroOut((position % 60).toFixed(0)) + " of " + 
+						zeroOut(Math.floor(my_media.getDuration() / 60)) + ":" + zeroOut((my_media.getDuration() % 60).toFixed(0)));
 					}
 				}
 			},
@@ -343,15 +343,18 @@ function playAudio(src, name, num, startPlay) {
 	    playing=true;
 	    $("#playPauseOption").attr("src","pause.png");
 	    $('#songSlider').slider('enable');
-            my_media.play();
+            
 	    
 	    $("#songState").html("Playing: ");
 	    if (name.length >15){
-		name = name.substring(0,15)+"...";
+		name = name.substring(0,20)+"...";
 	    }
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
 	    
-	    }, 1000);
+		setTimeout(function(){
+			my_media.play();
+		}, 350);
+	    }, 300);
 	    
 }
 
@@ -369,7 +372,7 @@ function deleteSong(path){
 	    alert("Failed to retrieve file: " + error.code);
 	}
 
-	alert("Trying to delete: " + path);
+
 	// Retrieve an existing file, or create it if it does not exist
 	window.appRootDir.getFile(path, {create: false, exclusive: false}, success, fail);
 }

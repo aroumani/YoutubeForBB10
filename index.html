@@ -62,13 +62,21 @@
 </div>
 	
 <div data-role="page" id="search">
+
+	<div data-role="popup" id="popupInfoWindow">
+		<p>On this page you can search for Convertable Vidoes by typing in search keywords and hitting the 'Search' button.</p>
+		<p>We try our best to convert, but due to copyright constraints only certian videos can be. These videos will be marked by a <a href="#" data-theme="e" data-inline="true" data-role="button" data-icon="plus" data-iconpos="notext">Plus</a> icon. If you see one of these, click it to download.<p>
+		<p>Try adding words like "lyrics" and "covers" to find songs to convert</p>
+	</div>
+	
+	
 	<div data-role="header" data-position="fixed" data-theme="b">
 		<a href="#music" data-icon="grid" data-theme="e" class="ui-btn-left">Downloads</a>
 		<h1>MP3Leech</h1>
 		<a href="#about" data-icon="gear" data-theme="e" class="ui-btn-right">About</a>
 		<table align="center" width="100%"><tr>
-		<td width="85%" ><input type="search" name="search" data-theme="b" id="searchField" placeholder="Enter keywords here..." value="" /></td>
-		<td><button data-inline="true" onclick="search()" data-theme="a">Search</button></td>
+		<td ><input type="search" name="search" data-theme="b" id="searchField" placeholder="Enter keywords here..." value="" /></td>
+		<td><button data-inline="true" onclick="search()" data-theme="a">Go</button></td>
 		</tr></table>
 	</div><!-- /header -->
 	<div data-role="content">
@@ -78,6 +86,7 @@
 		</ul>
 	</div><!-- /content -->
 	<div data-role="footer" data-position="fixed" data-theme="b"> 
+	<a data-iconpos="notext" class="ui-btn-left" href="#popupInfoWindow" data-role="button" data-inline="true" data-rel="popup" data-position-to="window" data-icon="info" data-theme="c">Info</a>
 	<h4>Compuscope Consulting</h4> 
 	</div> 
 </div><!-- /page -->
