@@ -101,9 +101,9 @@ function pageLoad(){
 		$( "#songSlider" ).on( 'slidestart', function( event ) { autoMove=true; });
 		$( "#songSlider" ).on( 'slidestop', function( event ) { 
 			var songVal = $(this).val();
-			alert(songVal);
-			alert(event.target.value);
-			my_media.seekTo(songVal/100.0 * my_media.getDuration());
+			var seekPos= Math.floor(songVal/100.0 * my_media.getDuration());
+			alert(seekPos);
+			my_media.seekTo(seekPos);
 			autoMove=false; 
 		});
 	});
