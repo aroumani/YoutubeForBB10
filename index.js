@@ -350,10 +350,13 @@ function playAudio(src, name, num, startPlay) {
 		name = name.substring(0,20)+"...";
 	    }
 	    $("#songStatus").html("<p>("+num+") "+name+"</p>");
-	    
+	    my_media.play();
 		setTimeout(function(){
-			my_media.play();
-		}, 350);
+			my_media.pause();
+			setTimeout(function(){
+				my_media.play();
+			}, 50);
+		}, 50);
 	    }, 300);
 	    
 }
