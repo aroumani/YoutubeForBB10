@@ -95,6 +95,12 @@ function pageLoad(){
 	}).focus();
 	
 	
+	
+	
+	$('#positionWindow').live( 'pageshow',function(event, ui){
+		$("#fileLoc").html(window.appRootDir.fullPath);
+	});
+	
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
 		
@@ -418,7 +424,6 @@ function refresh(){
 	// Get a list of all the entries in the directory
 	directoryReader.readEntries(dirsRead,fail);
 	
-	$("#fileLoc").html(window.appRootDir.fullPath);
 	
 }
 
