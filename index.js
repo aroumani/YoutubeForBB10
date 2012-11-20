@@ -100,6 +100,7 @@ function pageLoad(){
 		
 		$( "#slider" ).on( 'slidestart', function( event ) { autoMove=true; });
 		$( "#slider" ).on( 'slidestop', function( event ) {  
+			alert('sldie stop!');
 			var songVal = $(this).val();
 			my_media.seekTo(songVal/100 * my_media.getDuration());
 			autoMove=false; 
