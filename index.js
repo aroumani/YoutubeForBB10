@@ -6,6 +6,7 @@ var songLock=false;
 var curSong=null;
 var playing=false;
 var autoMove=false;
+var loadSearch=false;
 function onDeviceReady() {
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
@@ -45,7 +46,7 @@ downloadFile = function(atr, url, fname){
     var fileTransfer = new FileTransfer();
 
     var filePath = window.appRootDir.fullPath + "/" + fname + ".mp3";
-    showModal("Starting Download ["+filePath+"]");
+    showModal("Downloading... You will be prompted once complete.");
     
     
     fileTransfer.download(
@@ -86,21 +87,30 @@ function pageLoad(){
                     alert('fuckk...');
          }); 
 	 
-	 $("#searchField").keypress(function(e) {
-	  if(e.keyCode == 13)
-	     {
-		 e.preventDefault();
-		 search();
-	     }
-	}).focus();
-	
-	
+	 
+	 
+
 	
 	$( "#positionWindow" ).bind({
 	   popupafteropen: function(event, ui){
 		$("#fileLoc").html(window.appRootDir.fullPath);
 	   }
 	});
+	
+	$('#search').live( 'pageshow',function(event, ui){
+		$("#searchField").focus();
+		
+		if (!loadSearch){
+			loadSearch=true;
+			$("#searchField").keyup(function (e) {
+			    if (e.keyCode == 13) {
+				search();
+			    }
+			});
+		}
+	
+	});
+	
 	
 	$('#music').live( 'pageshow',function(event, ui){
 		refresh();
@@ -123,7 +133,6 @@ function popupClose(agree){
 
 	$.mobile.changePage('#search'); 
 	if (agree){
-		search();
 	}else{
 		alert("You should quit this application...");
 	}
